@@ -25,8 +25,12 @@ public class PlayerController : MonoBehaviour
     private Vector3 mousePosition;
 
     private GameObject cursor;
+    private GameObject trueCursor;
+    private GameObject tileIndicator;
 
     private WorldBuilder builder;
+
+    public float digRadius = 5;
 
     private void Awake()
     {
@@ -39,6 +43,8 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         cursor = transform.Find("Cursor").gameObject;
+        trueCursor = transform.Find("TrueCursor").gameObject;
+        tileIndicator = transform.Find("TileIndicator").gameObject;
 
         builder = FindObjectOfType<WorldBuilder>();
     }
@@ -60,7 +66,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnFire(InputValue value)
     {
-        builder.Dig(mousePosition);
+        builder.Dig(cursor.transform.position);
     }
 
     private void Update()
@@ -70,7 +76,35 @@ public class PlayerController : MonoBehaviour
 
         controller2D.Move(moveVec, false, (!submerged && moveInput.y > 0.1f));
 
-        cursor.transform.localPosition = lookInput;
+        bool usingGamepad = lookInput.magnitude > 0.1f;
+        Vector2 lookVec = lookInput * digRadius;
+        if(!usingGamepad)
+        {
+            Vector2 relativeMouse = mousePosition - transform.position;
+            if(relativeMouse.magnitude > digRadius) lookVec = relativeMouse.normalized * digRadius;
+            else lookVec = relativeMouse;
+
+            trueCursor.transform.localPosition = relativeMouse;
+        }
+        else
+        {
+            trueCursor.transform.localPosition = lookVec;
+        }
+        
+        
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, lookVec, digRadius, 8);
+        if(hit.collider == null) 
+        {
+            tileIndicator.SetActive(false);
+            cursor.transform.localPosition = lookVec;
+        }
+        else
+        {
+            cursor.transform.position = hit.point + (hit.normal * -0.1f);
+
+            tileIndicator.SetActive(true);
+            tileIndicator.transform.position = builder.SnapToTile(cursor.transform.position) + new Vector3(0.5f, 0.5f, 0f);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)

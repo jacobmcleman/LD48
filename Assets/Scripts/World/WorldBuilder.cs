@@ -207,4 +207,9 @@ public class WorldBuilder : MonoBehaviour
 
         return present;
     }
+
+    public Vector3 SnapToTile(Vector3 worldPos)
+    {
+        return terrainTiles.CellToWorld(terrainTiles.WorldToCell(worldPos));
+    }
 }
