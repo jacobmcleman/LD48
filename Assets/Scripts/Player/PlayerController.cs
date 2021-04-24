@@ -22,7 +22,11 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveInput;
     private Vector2 lookInput;
 
+    private Vector3 mousePosition;
+
     private GameObject cursor;
+
+    private WaterFlow flower;
 
     private void Awake()
     {
@@ -35,6 +39,8 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         cursor = transform.Find("Cursor").gameObject;
+
+        flower = FindObjectOfType<WaterFlow>();
     }
 
     public void OnMove(InputValue value)
@@ -45,6 +51,16 @@ public class PlayerController : MonoBehaviour
     public void OnLook(InputValue value)
     {
         lookInput = value.Get<Vector2>();
+    }
+
+    public void OnMousePosition(InputValue value)
+    {
+        mousePosition = Camera.main.ScreenToWorldPoint(value.Get<Vector2>());
+    }
+
+    public void OnFire(InputValue value)
+    {
+        flower.Dig(mousePosition);
     }
 
     private void Update()
