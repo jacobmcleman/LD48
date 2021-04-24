@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: Stone
+  m_Name: Tilemap_Test_9
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 2728598196176503869, guid: 8390cb70dec8d9140bdd6d6ea3cae64f, type: 3}
+  m_Sprite: {fileID: 8385555837129933328, guid: 8390cb70dec8d9140bdd6d6ea3cae64f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

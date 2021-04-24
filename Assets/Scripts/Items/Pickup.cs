@@ -7,6 +7,8 @@ public class Pickup : MonoBehaviour
     public enum Type 
     {
         GoldOre,
+        IronOre,
+        CopperOre,
         AirBubble
     }
 

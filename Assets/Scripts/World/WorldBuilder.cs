@@ -24,7 +24,11 @@ public class WorldBuilder : MonoBehaviour
     public Tile rockTile;
 
     public Tile goldTile;
+    public Tile ironTile;
+    public Tile copperTile;
     public GameObject goldNuggetPrefab;
+    public GameObject ironNuggetPrefab;
+    public GameObject copperNuggetPrefab;
 
     public GameObject[] randomDebris;
 
@@ -152,15 +156,36 @@ public class WorldBuilder : MonoBehaviour
 
         for(int y = -depthLimit; y < height; ++y)
         {
-            float oreSampleXpos = (x - xBounds) / 35.0f;
-            float oreSampleYpos = (y) / 20.0f;
-            float ore = Mathf.PerlinNoise(oreSampleXpos, oreSampleYpos);
+            
 
             Tile toPlace = y < (height - sandThickness) ? rockTile : sandTile;
 
-            if(ore > 0.7f && Random.Range(0.7f, 1f) < ore)
+            if(toPlace == rockTile)
             {
-                toPlace = goldTile;
+                float goldOreSampleXpos = (x - xBounds) / 70.0f;
+                float goldOreSampleYpos = (y) / 20.0f;
+                float goldOre = Mathf.PerlinNoise(goldOreSampleXpos, goldOreSampleYpos);
+
+                float ironOreSampleXpos = (x - xBounds) / 40.0f;
+                float ironOreSampleYpos = (y) / 15.0f;
+                float ironOre = Mathf.PerlinNoise(ironOreSampleXpos, ironOreSampleYpos);
+
+                float copperOreSampleXpos = (x - xBounds) / 55.0f;
+                float copperOreSampleYpos = (y) / 17.0f;
+                float copperOre = Mathf.PerlinNoise(copperOreSampleXpos, copperOreSampleYpos);
+
+                if(ironOre > 0.6f && Random.Range(0.6f, 1f) < ironOre)
+                {
+                    toPlace = ironTile;
+                }
+                if(copperOre > 0.7f && Random.Range(0.7f, 1f) < copperOre)
+                {
+                    toPlace = copperTile;
+                }
+                if(goldOre > 0.8f && Random.Range(0.8f, 1f) < goldOre)
+                {
+                    toPlace = goldTile;
+                }
             }
 
             Vector3Int tilePos = new Vector3Int(x, y, 0);
@@ -182,6 +207,14 @@ public class WorldBuilder : MonoBehaviour
         if(brokenTile == goldTile)
         {
             toSpawn = goldNuggetPrefab;
+        }
+        else if(brokenTile == ironTile)
+        {
+            toSpawn = ironNuggetPrefab;
+        }
+        else if(brokenTile == copperTile)
+        {
+            toSpawn = copperNuggetPrefab;
         }
 
         if(toSpawn != null)

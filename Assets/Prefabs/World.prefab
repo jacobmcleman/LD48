@@ -90,8 +90,18 @@ MonoBehaviour:
   sandTile: {fileID: 11400000, guid: 314ed8a14fbd8594c8a8a1529a57a7dd, type: 2}
   rockTile: {fileID: 11400000, guid: 7516e1b84710936478dbf8eec39be7b6, type: 2}
   goldTile: {fileID: 11400000, guid: e5942ecd14053c74099ee9ebd96a3f3a, type: 2}
+  ironTile: {fileID: 11400000, guid: 802e42fccce8f8b4f8f4bde580f3d481, type: 2}
+  copperTile: {fileID: 11400000, guid: 382459c0c4746d64bbba054890f7395a, type: 2}
   goldNuggetPrefab: {fileID: 872478555066584383, guid: 9d75edaac951d6f4db6349016fe39dbf, type: 3}
-  passiveNuggetSpawnInterval: 10
+  ironNuggetPrefab: {fileID: 7318723966325832586, guid: 70565bd5aea59db468da8387e51a8773, type: 3}
+  copperNuggetPrefab: {fileID: 3119323222893604313, guid: 180f9515591a13e409b52f1bffd1919d, type: 3}
+  randomDebris:
+  - {fileID: 872478555066584383, guid: 9d75edaac951d6f4db6349016fe39dbf, type: 3}
+  - {fileID: 3119323222893604313, guid: 180f9515591a13e409b52f1bffd1919d, type: 3}
+  - {fileID: 7318723966325832586, guid: 70565bd5aea59db468da8387e51a8773, type: 3}
+  - {fileID: 5210332639668193339, guid: 5968d861305a9454e9db839164c62581, type: 3}
+  - {fileID: 5210332639668193339, guid: 5968d861305a9454e9db839164c62581, type: 3}
+  passiveNuggetSpawnInterval: 5
   maxPassiveNuggets: 10
   minSpawnDistance: 12
   maxSpawnDistance: 25

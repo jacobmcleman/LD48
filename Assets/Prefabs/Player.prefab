@@ -449,7 +449,9 @@ MonoBehaviour:
   gold: 0
   goldNuggetPrefab: {fileID: 872478555066584383, guid: 9d75edaac951d6f4db6349016fe39dbf, type: 3}
   iron: 0
+  ironNuggetPrefab: {fileID: 7318723966325832586, guid: 70565bd5aea59db468da8387e51a8773, type: 3}
   copper: 0
+  copperNuggetPrefab: {fileID: 3119323222893604313, guid: 180f9515591a13e409b52f1bffd1919d, type: 3}
 --- !u!82 &1727570089
 AudioSource:
   m_ObjectHideFlags: 0
