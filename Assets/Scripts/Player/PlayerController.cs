@@ -46,6 +46,15 @@ public class PlayerController : MonoBehaviour
     private Meter airMeter;
     private Meter healthMeter;
 
+    public AudioClip[] bubbleSounds;
+    public AudioClip[] oofSounds;
+
+    public AudioSource oofSource;
+    public AudioSource bubbleSource;
+
+    public float damageSoundInterval = 1.5f;
+    public float lastDamageSoundTime;
+
     private Transform head;
 
     private void Awake()
@@ -57,6 +66,8 @@ public class PlayerController : MonoBehaviour
 
         curAir = airAmount;
         curHealth = healthAmount;
+
+        lastDamageSoundTime = Time.time;
     }
 
     private void Start()
@@ -153,6 +164,13 @@ public class PlayerController : MonoBehaviour
         if(curAir == 0)
         {
             curHealth -= Time.deltaTime * healthDecayRate;
+
+            if(Time.time - lastDamageSoundTime > damageSoundInterval)
+            {
+                lastDamageSoundTime = Time.time;
+                bubbleSource.PlayOneShot(bubbleSounds[Random.Range(0, bubbleSounds.Length)]);
+                oofSource.PlayOneShot(oofSounds[Random.Range(0, oofSounds.Length)]);
+            }
         }
         else
         {
