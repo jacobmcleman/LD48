@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Pickup : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class Pickup : MonoBehaviour
     public Type pickupType;
 
     public int amount;
+
+    public UnityEvent<GameObject> OnPickup;
 
     private void Awake()
     {

@@ -88,20 +88,6 @@ public class WaterFlow : MonoBehaviour
         toUpdateNextFrame.Enqueue(tilePos + new Vector3Int(-1, 0, 0));
     }
 
-    public TileBase Dig(Vector3 worldPos)
-    {
-        Vector3Int tilePos = terrainTiles.WorldToCell(worldPos);
-        TileBase present = terrainTiles.GetTile(tilePos);
-
-        if(present != null)
-        {
-            terrainTiles.SetTile(tilePos, null);
-            RegisterTerrainChange(tilePos);
-        }
-
-        return present;
-    }
-
     public void RegisterTerrainChange(Vector3Int tilePos)
     {
         toUpdateNextFrame.Enqueue(tilePos);

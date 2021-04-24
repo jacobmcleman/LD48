@@ -29,6 +29,7 @@ public class Inventory : MonoBehaviour
                     break;
             }
 
+            pick.OnPickup.Invoke(pick.gameObject);
             Destroy(other.gameObject);
         }
     }

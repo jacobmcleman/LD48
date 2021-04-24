@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Collections.Generic;
 
 public class WorldBuilder : MonoBehaviour
 {
@@ -31,6 +31,13 @@ public class WorldBuilder : MonoBehaviour
 
     private WaterFlow flower;
 
+    public float passiveNuggetSpawnInterval = 1f;
+    private float lastNuggetSpawnTime;
+    public int maxPassiveNuggets = 10;
+    public int minSpawnDistance = 12;
+    public int maxSpawnDistance = 25;
+    private LinkedList<GameObject> passiveNuggets;
+
     private void Start()
     {
         terrainTiles = transform.Find("Terrain").GetComponent<Tilemap>();
@@ -54,6 +61,82 @@ public class WorldBuilder : MonoBehaviour
         {
             Debug.LogWarning("No prefab assigned for gold nugget!");
         }
+
+        lastNuggetSpawnTime = Time.time;
+
+        passiveNuggets = new LinkedList<GameObject>();
+    }
+    
+    private Vector3Int PickNuggetSpawnSpot()
+    {
+        Vector3 camPos = Camera.main.transform.position;
+        int camX = (int)camPos.x;
+        int lowLow = System.Math.Max(minExtent, camX - maxSpawnDistance);
+        int lowHigh = System.Math.Max(lowLow, camX - minSpawnDistance);
+        int highHigh = System.Math.Min(maxExtent, camX + maxSpawnDistance);
+        int highLow = System.Math.Min(highHigh, camX + minSpawnDistance);
+        bool canUseLow = lowLow != lowHigh;
+        bool canUseHigh = highLow != highHigh;
+
+        bool useLow = canUseLow && (!canUseHigh || Random.Range(0, 2) == 1);
+
+        int rangeLow = useLow ? lowLow : highLow;
+        int rangeHigh = useLow ? lowHigh : highHigh;
+
+        return new Vector3Int(Random.Range(rangeLow, rangeHigh), Random.Range(-minDepth, waterLevel), 0);
+    }
+
+    private void Update()
+    {
+        Vector3 camPos = Camera.main.transform.position;
+        int camX = (int)camPos.x;
+
+        if(camX + 20 > maxExtent && maxExtent < xBounds) 
+        {
+            for(int x = maxExtent; x < camX + 20 && x < xBounds; ++x)
+            {
+                GenerateSlice(x);
+            }
+        }
+
+        if(camX - 20 < minExtent && minExtent > -xBounds) 
+        {
+            for(int x = minExtent - 1; x > camX - 20 && x > -xBounds; --x)
+            {
+                GenerateSlice(x);
+            }
+        }
+
+        if(Time.time - lastNuggetSpawnTime > passiveNuggetSpawnInterval)
+        {
+            lastNuggetSpawnTime = Time.time;
+
+            if(passiveNuggets.Count < maxPassiveNuggets)
+            {
+                Vector3Int spawnPos = PickNuggetSpawnSpot();
+                GameObject drop = SpawnDrops(goldTile, spawnPos);
+                drop.GetComponent<Pickup>().OnPickup.AddListener(OnPassiveNuggetPickedUp);
+                drop.GetComponent<WaterInteraction>().waterGravityScale = 0.05f;
+                passiveNuggets.AddLast(drop);
+            }
+            else
+            {
+                foreach(GameObject nugget in passiveNuggets)
+                {
+                    if(Vector2.Distance(camPos, nugget.transform.position) > maxSpawnDistance)
+                    {
+                        passiveNuggets.Remove(nugget);
+                        Destroy(nugget);
+                        break;
+                    }
+                }
+            }   
+        }
+    }
+
+    private void OnPassiveNuggetPickedUp(GameObject nugget)
+    {
+        passiveNuggets.Remove(nugget);
     }
 
     private void GenerateSlice(int x)
@@ -87,32 +170,8 @@ public class WorldBuilder : MonoBehaviour
         else if(x < minExtent) minExtent = x;
     }
 
-    private void Update()
+    private GameObject SpawnDrops(TileBase brokenType, Vector3Int tilePos)
     {
-        Vector3 camPos = Camera.main.transform.position;
-        int camX = (int)camPos.x;
-
-        if(camX + 20 > maxExtent && maxExtent < xBounds) 
-        {
-            for(int x = maxExtent; x < camX + 20 && x < xBounds; ++x)
-            {
-                GenerateSlice(x);
-            }
-        }
-
-        if(camX - 20 < minExtent && minExtent > -xBounds) 
-        {
-            for(int x = minExtent - 1; x > camX - 20 && x > -xBounds; --x)
-            {
-                GenerateSlice(x);
-            }
-        }
-    }
-
-    private void SpawnDrops(TileBase brokenType, Vector3Int tilePos)
-    {
-        if(brokenType == null) return;
-
         Tile brokenTile = (Tile)brokenType;
 
         GameObject toSpawn = null;
@@ -126,7 +185,10 @@ public class WorldBuilder : MonoBehaviour
         {
             Vector3 position = terrainTiles.CellToWorld(tilePos);
             GameObject drop = Instantiate(toSpawn, position, Quaternion.identity);
+            return drop;
         }
+
+        return null;
     }
 
     

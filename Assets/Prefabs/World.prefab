@@ -80,6 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6c970f22de790d4498f1a23df1609ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  seed: 0
   xBounds: 100
   depthLimit: 100
   waterLevel: 0
@@ -89,6 +90,11 @@ MonoBehaviour:
   sandTile: {fileID: 11400000, guid: 314ed8a14fbd8594c8a8a1529a57a7dd, type: 2}
   rockTile: {fileID: 11400000, guid: 7516e1b84710936478dbf8eec39be7b6, type: 2}
   goldTile: {fileID: 11400000, guid: e5942ecd14053c74099ee9ebd96a3f3a, type: 2}
+  goldNuggetPrefab: {fileID: 872478555066584383, guid: 9d75edaac951d6f4db6349016fe39dbf, type: 3}
+  passiveNuggetSpawnInterval: 10
+  maxPassiveNuggets: 10
+  minSpawnDistance: 12
+  maxSpawnDistance: 25
 --- !u!1 &2084243904776154380
 GameObject:
   m_ObjectHideFlags: 0
