@@ -577,7 +577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6c970f22de790d4498f1a23df1609ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xBounds: 1000
+  xBounds: 100
   depthLimit: 100
   waterLevel: 0
   minDepth: 10
