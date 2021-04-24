@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
 
     private GameObject cursor;
 
-    private WaterFlow flower;
+    private WorldBuilder builder;
 
     private void Awake()
     {
@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
     {
         cursor = transform.Find("Cursor").gameObject;
 
-        flower = FindObjectOfType<WaterFlow>();
+        builder = FindObjectOfType<WorldBuilder>();
     }
 
     public void OnMove(InputValue value)
@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnFire(InputValue value)
     {
-        flower.Dig(mousePosition);
+        builder.Dig(mousePosition);
     }
 
     private void Update()

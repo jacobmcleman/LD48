@@ -1,4 +1,4 @@
-using System.Collections;
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -24,33 +24,39 @@ public class WaterFlow : MonoBehaviour
     public float waterUpdateRate = 0.1f;
     private float lastWaterUpdate;
 
+    private int minExtent;
+    private int maxExtent;
+
     private void Awake()
     {
         toUpdateNextFrame = new Queue<Vector3Int>();
+
+        waterTiles = transform.Find("Ocean").GetComponent<Tilemap>();
+        terrainTiles = transform.Find("Terrain").GetComponent<Tilemap>();
 
         waterloggableSet = new HashSet<Tile>();
         foreach(Tile waterloggable in waterloggableTiles)
         {
             waterloggableSet.Add(waterloggable);
         }
-    }
-
-    private void Start()
-    {
-        waterTiles = transform.Find("Ocean").GetComponent<Tilemap>();
-        terrainTiles = transform.Find("Terrain").GetComponent<Tilemap>();
-
-        for(int i = -xBounds; i < xBounds; ++i)
-        {
-            Vector3Int tilePos = new Vector3Int(i, waterLevel, 0);
-            if(isWaterLoggable(terrainTiles.GetTile(tilePos)))
-            {
-                waterTiles.SetTile(tilePos, waterSurfaceTile);
-                toUpdateNextFrame.Enqueue(tilePos);
-            }
-        }
 
         lastWaterUpdate = Time.time;
+
+        maxExtent = int.MinValue;
+        minExtent = int.MaxValue;
+    }
+
+    public void AddSlice(int x)
+    {
+        Vector3Int tilePos = new Vector3Int(x, waterLevel, 0);
+        if(isWaterLoggable(terrainTiles.GetTile(tilePos)))
+        {
+            waterTiles.SetTile(tilePos, waterSurfaceTile);
+            toUpdateNextFrame.Enqueue(tilePos);
+        }
+
+        if(x > maxExtent) maxExtent = x;
+        if(x < minExtent) minExtent = x;
     }
 
     private void Update()
@@ -107,6 +113,7 @@ public class WaterFlow : MonoBehaviour
     private bool TryPlaceWater(Vector3Int tilePos)
     {
         if(tilePos.x > xBounds || tilePos.x < -xBounds || tilePos.y < -depthLimit) return false;
+        if(tilePos.x > maxExtent || tilePos.x < minExtent) return false;
         if(waterTiles.GetTile(tilePos) != null) return false;
         if(!isWaterLoggable(terrainTiles.GetTile(tilePos))) return false;
 
