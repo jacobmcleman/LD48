@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
 
     private PlayerInput inputSystem;
 
+    private CameraFollow camControl;
+
     private CharacterController2D controller2D;
     private new Rigidbody2D rigidbody2D;
     public float waterGravityScale = 0.3f;
@@ -55,7 +57,13 @@ public class PlayerController : MonoBehaviour
     public float damageSoundInterval = 1.5f;
     public float lastDamageSoundTime;
 
+    public bool isDead;
+
     private Transform head;
+
+    private GameObject deathUI;
+
+    private Vector3 spawnPosition;
 
     private void Awake()
     {
@@ -68,6 +76,8 @@ public class PlayerController : MonoBehaviour
         curHealth = healthAmount;
 
         lastDamageSoundTime = Time.time;
+
+        spawnPosition = transform.position;
     }
 
     private void Start()
@@ -89,6 +99,11 @@ public class PlayerController : MonoBehaviour
         healthMeter.Value = curHealth;
 
         builder = FindObjectOfType<WorldBuilder>();
+
+        deathUI = GameObject.Find("DeathMessage");
+        deathUI.SetActive(false);
+
+        camControl = Camera.main.GetComponent<CameraFollow>();
     }
 
     public void OnMove(InputValue value)
@@ -118,6 +133,13 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if(isDead)
+        {
+
+
+            return;
+        }
+        
         float curMoveSpeed = submerged ? waterMoveSpeed : airMoveSpeed;
         Vector2 moveVec = new Vector2(moveInput.x * curMoveSpeed, submerged ? moveInput.y * curMoveSpeed : 0);
 
@@ -138,6 +160,7 @@ public class PlayerController : MonoBehaviour
             trueCursor.transform.localPosition = lookVec;
         }
         
+        //camControl.offset = lookVec;
         
         RaycastHit2D hit = Physics2D.Raycast(transform.position, lookVec, digRadius, 8);
         if(hit.collider == null) 
@@ -179,9 +202,15 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            curHealth += Time.deltaTime * healthDecayRate;
+            curHealth += Time.deltaTime * healthRecoveryRate;
         }
         curHealth = Mathf.Clamp(curHealth, 0, healthAmount);
+
+        if(curHealth == 0)
+        {
+            DoDeath("You ran out of air");
+            GetComponent<Inventory>()?.DropAll();
+        }
 
         healthMeter.Value = curHealth;
     }
@@ -211,5 +240,23 @@ public class PlayerController : MonoBehaviour
             rigidbody2D.drag = 0;
             rigidbody2D.gravityScale = 1;
         }
+    }
+
+    public void DoDeath(string cause)
+    {
+        isDead = true;
+        deathUI.transform.Find("Cause of Death").GetComponent<UnityEngine.UI.Text>().text = cause;
+        deathUI.SetActive(true);
+    }
+
+    public void Respawn()
+    {
+        Debug.Log("RESPAWNED");
+        deathUI.SetActive(false);
+        isDead = false;
+
+        curAir = airAmount;
+        curHealth = healthAmount;
+        transform.position = spawnPosition;
     }
 }

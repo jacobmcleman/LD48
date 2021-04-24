@@ -41,6 +41,8 @@ public class WaterInteraction : MonoBehaviour
             if(requiresWater)
             {
                 Destroy(gameObject);
+
+                GetComponent<Pickup>()?.OnPickup.Invoke(gameObject);
             }
         }
     }

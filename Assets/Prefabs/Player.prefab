@@ -391,7 +391,7 @@ MonoBehaviour:
   airRecoveryRate: 3
   airDecayRate: 1
   healthAmount: 10
-  healthRecoveryRate: 0.001
+  healthRecoveryRate: 0.05
   healthDecayRate: 2
   bubbleSounds:
   - {fileID: 8300000, guid: b23b2aae3a16a29469ffa9a43061ad07, type: 3}
@@ -405,6 +405,7 @@ MonoBehaviour:
   bubbleSource: {fileID: 1741292967}
   damageSoundInterval: 1.5
   lastDamageSoundTime: 0
+  isDead: 0
 --- !u!114 &224586246361640255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -446,6 +447,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gold: 0
+  goldNuggetPrefab: {fileID: 872478555066584383, guid: 9d75edaac951d6f4db6349016fe39dbf, type: 3}
   iron: 0
   copper: 0
 --- !u!82 &1727570089

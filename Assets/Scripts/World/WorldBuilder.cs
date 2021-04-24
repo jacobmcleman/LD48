@@ -119,7 +119,7 @@ public class WorldBuilder : MonoBehaviour
                 GameObject toSpawn = randomDebris[Random.Range(0, randomDebris.Length)];
                 GameObject drop = Instantiate(toSpawn, terrainTiles.CellToWorld(spawnPos), Quaternion.identity);
                 drop.GetComponent<Pickup>().OnPickup.AddListener(OnPassiveNuggetPickedUp);
-                drop.GetComponent<WaterInteraction>().waterGravityScale = 0.05f;
+                //drop.GetComponent<WaterInteraction>().waterGravityScale = 0.05f;
                 passiveNuggets.AddLast(drop);
             }
             else

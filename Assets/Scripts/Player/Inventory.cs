@@ -5,6 +5,8 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     public int gold;
+    public GameObject goldNuggetPrefab;
+
     public int iron;
     public int copper;
 
@@ -17,7 +19,7 @@ public class Inventory : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.tag == "Pickup")
+        if(!playerController.isDead && other.tag == "Pickup")
         {
             Pickup pick = other.GetComponent<Pickup>();
             if(pick == null)
@@ -41,6 +43,24 @@ public class Inventory : MonoBehaviour
 
             pick.OnPickup.Invoke(pick.gameObject);
             Destroy(other.gameObject);
+        }
+    }
+
+    public void DropAll()
+    {
+        while(gold > 0)
+        {
+            GameObject nugget = Instantiate(goldNuggetPrefab, transform.position, Quaternion.identity);
+            Pickup nuggetPickup = nugget.GetComponent<Pickup>();
+            if(gold - nuggetPickup.amount >= 0) 
+            {
+                gold -= nuggetPickup.amount;
+            }
+            else 
+            {
+                nuggetPickup.amount = gold;
+                gold = 0;
+            }
         }
     }
 }
