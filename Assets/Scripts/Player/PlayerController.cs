@@ -20,6 +20,9 @@ public class PlayerController : MonoBehaviour
     public float waterMoveSpeed = 1;
 
     private Vector2 moveInput;
+    private Vector2 lookInput;
+
+    private GameObject cursor;
 
     private void Awake()
     {
@@ -29,9 +32,19 @@ public class PlayerController : MonoBehaviour
         rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
+    private void Start()
+    {
+        cursor = transform.Find("Cursor").gameObject;
+    }
+
     public void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
+    }
+
+    public void OnLook(InputValue value)
+    {
+        lookInput = value.Get<Vector2>();
     }
 
     private void Update()
@@ -40,6 +53,8 @@ public class PlayerController : MonoBehaviour
         Vector2 moveVec = new Vector2(moveInput.x * curMoveSpeed, submerged ? moveInput.y * curMoveSpeed : 0);
 
         controller2D.Move(moveVec, false, (!submerged && moveInput.y > 0.1f));
+
+        cursor.transform.localPosition = lookInput;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
