@@ -895,7 +895,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 224586246345738293, guid: 9b2d9dce9c202444faa15a9f889a3968, type: 3}
   m_PrefabInstance: {fileID: 224586245847272848}
   m_PrefabAsset: {fileID: 0}
---- !u!82 &1741292966
+--- !u!82 &1741292967
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1203,7 +1203,11 @@ PrefabInstance:
     - target: {fileID: 224586246361640253, guid: 9b2d9dce9c202444faa15a9f889a3968, type: 3}
       propertyPath: bubbleSource
       value: 
-      objectReference: {fileID: 1741292966}
+      objectReference: {fileID: 1741292967}
+    - target: {fileID: 224586246361640253, guid: 9b2d9dce9c202444faa15a9f889a3968, type: 3}
+      propertyPath: healthRecoveryRate
+      value: 0.001
+      objectReference: {fileID: 0}
     - target: {fileID: 224586246361640253, guid: 9b2d9dce9c202444faa15a9f889a3968, type: 3}
       propertyPath: oofSounds.Array.size
       value: 3
@@ -1297,6 +1301,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2084243904230106741, guid: 925c19f2cb9476444bf7fb0650ddc913, type: 3}
+      propertyPath: randomDebris.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084243904230106741, guid: 925c19f2cb9476444bf7fb0650ddc913, type: 3}
+      propertyPath: randomDebris.Array.data[0]
+      value: 
+      objectReference: {fileID: 872478555066584383, guid: 9d75edaac951d6f4db6349016fe39dbf, type: 3}
+    - target: {fileID: 2084243904230106741, guid: 925c19f2cb9476444bf7fb0650ddc913, type: 3}
+      propertyPath: randomDebris.Array.data[1]
+      value: 
+      objectReference: {fileID: 5210332639668193339, guid: 5968d861305a9454e9db839164c62581, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 925c19f2cb9476444bf7fb0650ddc913, type: 3}
 --- !u!1001 &8533016895370847172

@@ -26,6 +26,8 @@ public class WorldBuilder : MonoBehaviour
     public Tile goldTile;
     public GameObject goldNuggetPrefab;
 
+    public GameObject[] randomDebris;
+
     private int minExtent;
     private int maxExtent;
 
@@ -114,7 +116,8 @@ public class WorldBuilder : MonoBehaviour
             if(passiveNuggets.Count < maxPassiveNuggets)
             {
                 Vector3Int spawnPos = PickNuggetSpawnSpot();
-                GameObject drop = SpawnDrops(goldTile, spawnPos);
+                GameObject toSpawn = randomDebris[Random.Range(0, randomDebris.Length)];
+                GameObject drop = Instantiate(toSpawn, terrainTiles.CellToWorld(spawnPos), Quaternion.identity);
                 drop.GetComponent<Pickup>().OnPickup.AddListener(OnPassiveNuggetPickedUp);
                 drop.GetComponent<WaterInteraction>().waterGravityScale = 0.05f;
                 passiveNuggets.AddLast(drop);

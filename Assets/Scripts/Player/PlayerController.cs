@@ -111,6 +111,11 @@ public class PlayerController : MonoBehaviour
         builder.Dig(cursor.transform.position);
     }
 
+    public void AddAir(float amount)
+    {
+        curAir += amount;
+    }
+
     private void Update()
     {
         float curMoveSpeed = submerged ? waterMoveSpeed : airMoveSpeed;

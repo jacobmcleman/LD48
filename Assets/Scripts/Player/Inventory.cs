@@ -8,6 +8,13 @@ public class Inventory : MonoBehaviour
     public int iron;
     public int copper;
 
+    private PlayerController playerController;
+
+    private void Start()
+    {
+        playerController = FindObjectOfType<PlayerController>();
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if(other.tag == "Pickup")
@@ -23,6 +30,9 @@ public class Inventory : MonoBehaviour
             {
                 case Pickup.Type.GoldOre:
                     gold += pick.amount;
+                    break;
+                case Pickup.Type.AirBubble:
+                    playerController.AddAir(pick.amount);
                     break;
                 default:
                     Debug.LogWarningFormat("You haven't implemented pickup for {0} yet dummy", pick.pickupType);

@@ -11,6 +11,8 @@ public class WaterInteraction : MonoBehaviour
 
     public float waterDrag = 0.8f;
 
+    public bool requiresWater = false;
+
     private void Awake()
     {
         submerged = false;
@@ -35,6 +37,11 @@ public class WaterInteraction : MonoBehaviour
             submerged = false;
             rigidbody2D.drag = 0;
             rigidbody2D.gravityScale = 1;
+
+            if(requiresWater)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }
