@@ -143,4 +143,9 @@ public class WaterFlow : MonoBehaviour
             toUpdateNextFrame.Enqueue(tilePos);
         }
     }
+
+    public bool isBreathable(Vector3Int tilePos)
+    {
+        return waterTiles.GetTile(tilePos) == null && isWaterLoggable(terrainTiles.GetTile(tilePos));
+    }
 }

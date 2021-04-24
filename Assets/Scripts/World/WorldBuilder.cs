@@ -212,4 +212,10 @@ public class WorldBuilder : MonoBehaviour
     {
         return terrainTiles.CellToWorld(terrainTiles.WorldToCell(worldPos));
     }
+
+    public bool IsBreathable(Vector3 worldPos)
+    {
+        Vector3Int tilePos = terrainTiles.WorldToCell(worldPos);
+        return flower.isBreathable(tilePos);
+    }
 }

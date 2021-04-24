@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private bool submerged;
+    private bool headSubmerged;
 
     private PlayerInput inputSystem;
 
@@ -32,12 +33,30 @@ public class PlayerController : MonoBehaviour
 
     public float digRadius = 5;
 
+    public float airAmount = 10;
+    public float airRecoveryRate = 3;
+    public float airDecayRate = 1;
+    private float curAir;
+
+    public float healthAmount = 10;
+    public float healthRecoveryRate = 0.05f;
+    public float healthDecayRate = 1;
+    private float curHealth;
+
+    private Meter airMeter;
+    private Meter healthMeter;
+
+    private Transform head;
+
     private void Awake()
     {
         submerged = false;
 
         controller2D = GetComponent<CharacterController2D>();
         rigidbody2D = GetComponent<Rigidbody2D>();
+
+        curAir = airAmount;
+        curHealth = healthAmount;
     }
 
     private void Start()
@@ -45,6 +64,18 @@ public class PlayerController : MonoBehaviour
         cursor = transform.Find("Cursor").gameObject;
         trueCursor = transform.Find("TrueCursor").gameObject;
         tileIndicator = transform.Find("TileIndicator").gameObject;
+
+        head = transform.Find("Head");
+
+        airMeter = GameObject.Find("AirBar").GetComponent<Meter>();
+        airMeter.maxVal = airAmount;
+        airMeter.minVal = 0;
+        airMeter.Value = curAir;
+
+        healthMeter = GameObject.Find("HealthBar").GetComponent<Meter>();
+        healthMeter.maxVal = healthAmount;
+        healthMeter.minVal = 0;
+        healthMeter.Value = curHealth;
 
         builder = FindObjectOfType<WorldBuilder>();
     }
@@ -96,6 +127,7 @@ public class PlayerController : MonoBehaviour
         if(hit.collider == null) 
         {
             tileIndicator.SetActive(false);
+            //cursor.SetActive(true);
             cursor.transform.localPosition = lookVec;
         }
         else
@@ -103,8 +135,38 @@ public class PlayerController : MonoBehaviour
             cursor.transform.position = hit.point + (hit.normal * -0.1f);
 
             tileIndicator.SetActive(true);
+            //cursor.SetActive(false);
             tileIndicator.transform.position = builder.SnapToTile(cursor.transform.position) + new Vector3(0.5f, 0.5f, 0f);
         }
+
+        if(headSubmerged)
+        {
+            curAir -= Time.deltaTime * airDecayRate;
+        }
+        else
+        {
+            curAir += Time.deltaTime * airRecoveryRate;
+        }
+        curAir = Mathf.Clamp(curAir, 0, airAmount);
+        airMeter.Value = curAir;
+
+        if(curAir == 0)
+        {
+            curHealth -= Time.deltaTime * healthDecayRate;
+        }
+        else
+        {
+            curHealth += Time.deltaTime * healthDecayRate;
+        }
+        curHealth = Mathf.Clamp(curHealth, 0, healthAmount);
+
+        healthMeter.Value = curHealth;
+    }
+
+    private void FixedUpdate()
+    {
+        Vector3 headPos = head.position;
+        headSubmerged = !builder.IsBreathable(headPos);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
