@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 45dd9df5f4804884c9b1742b56f6c501, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 463ece0366636af439ef3952f8cf1ee4, type: 3}
   m_Color: {r: 0.81509435, g: 0.94003105, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupType: 3
-  amount: 1
+  amount: 10
   OnPickup:
     m_PersistentCalls:
       m_Calls: []

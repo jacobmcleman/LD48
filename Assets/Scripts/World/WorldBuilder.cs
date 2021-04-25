@@ -249,6 +249,16 @@ public class WorldBuilder : MonoBehaviour
         return terrainTiles.CellToWorld(terrainTiles.WorldToCell(worldPos));
     }
 
+    public Vector3Int SnapToGrid(Vector3 worldPos)
+    {
+        return terrainTiles.WorldToCell(worldPos);
+    }
+
+    public bool TilePresent(Vector3 worldPos)
+    {
+        return terrainTiles.GetTile(terrainTiles.WorldToCell(worldPos)) != null;
+    }
+
     public bool IsBreathable(Vector3 worldPos)
     {
         Vector3Int tilePos = terrainTiles.WorldToCell(worldPos);

@@ -101,9 +101,13 @@ MonoBehaviour:
   - {fileID: 7318723966325832586, guid: 70565bd5aea59db468da8387e51a8773, type: 3}
   - {fileID: 5210332639668193339, guid: 5968d861305a9454e9db839164c62581, type: 3}
   - {fileID: 5210332639668193339, guid: 5968d861305a9454e9db839164c62581, type: 3}
-  passiveNuggetSpawnInterval: 5
-  maxPassiveNuggets: 10
-  minSpawnDistance: 12
+  - {fileID: 5210332639668193339, guid: 5968d861305a9454e9db839164c62581, type: 3}
+  - {fileID: 5210332639668193339, guid: 5968d861305a9454e9db839164c62581, type: 3}
+  - {fileID: 5210332639668193339, guid: 5968d861305a9454e9db839164c62581, type: 3}
+  - {fileID: 5210332639668193339, guid: 5968d861305a9454e9db839164c62581, type: 3}
+  passiveNuggetSpawnInterval: 2
+  maxPassiveNuggets: 20
+  minSpawnDistance: 15
   maxSpawnDistance: 25
 --- !u!1 &2084243904776154380
 GameObject:
@@ -206,7 +210,7 @@ Tilemap:
     m_Data: {r: 1.0986e-41, g: 1.0986e-41, b: 1.0986e-41, a: 1.0986e-41}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.8627451}
   m_Origin: {x: -11, y: -9, z: 0}
   m_Size: {x: 45, y: 16, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
@@ -267,7 +271,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1677301117
   m_SortingLayer: -1
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16

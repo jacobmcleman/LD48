@@ -37,15 +37,22 @@ public class PlayerController : MonoBehaviour
     private GameObject cursor;
     private GameObject trueCursor;
     private GameObject tileIndicator;
+    private GameObject breakTileIndicator;
 
     private WorldBuilder builder;
 
-    public float digRadius = 5;
-
+    
     public bool inUpgradeScreen;
 
     private GameObject upgradeScreen;
 
+    public float digSpeed = 0.5f;
+    public float DigSpeed 
+    {
+        get { return digSpeed + UpgradeManager.DigSpeedIncrease; }
+    }
+
+    public float digRadius = 5;
     public float DigRange 
     {
         get { return digRadius + UpgradeManager.DigRangeIncrease; }
@@ -94,11 +101,17 @@ public class PlayerController : MonoBehaviour
 
     public float deathDepth = -120f;
 
+    private bool fireHeld;
+
+    private Vector3Int currentlyDigging;
+    private float currentTileDigTime;
+
     private void Awake()
     {
         submerged = false;
         inUpgradeScreen = false;
         onLadder = false;
+        fireHeld = false;
 
         controller2D = GetComponent<CharacterController2D>();
         rigidbody2D = GetComponent<Rigidbody2D>();
@@ -116,6 +129,7 @@ public class PlayerController : MonoBehaviour
         cursor = transform.Find("Cursor").gameObject;
         trueCursor = transform.Find("TrueCursor").gameObject;
         tileIndicator = transform.Find("TileIndicator").gameObject;
+        breakTileIndicator = tileIndicator.transform.Find("BreakAnimation").gameObject;
 
         head = transform.Find("Head");
 
@@ -157,7 +171,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnFire(InputValue value)
     {
-        if(!isDead) builder.Dig(cursor.transform.position);
+        fireHeld = value.Get<float>() == 1;
     }
 
     public void AddAir(float amount)
@@ -215,6 +229,40 @@ public class PlayerController : MonoBehaviour
             //cursor.SetActive(false);
             tileIndicator.transform.position = builder.SnapToTile(cursor.transform.position) + new Vector3(0.5f, 0.5f, 0f);
         }
+
+        if(fireHeld)
+        {
+            Vector3Int currentAim = builder.SnapToGrid(cursor.transform.position);
+            if(currentAim != currentlyDigging)
+            {
+                currentlyDigging = currentAim;
+                currentTileDigTime = 0;
+            }
+
+            currentTileDigTime += Time.deltaTime;
+
+            if(currentTileDigTime >= (1 / DigSpeed))
+            {
+                builder.Dig(cursor.transform.position);
+            }
+
+            if(builder.TilePresent(cursor.transform.position))
+            {
+                breakTileIndicator.SetActive(true);
+                Meter indicator = breakTileIndicator.GetComponent<Meter>();
+                indicator.maxVal = (1 / DigSpeed);
+                indicator.Value = currentTileDigTime;
+            }
+            else
+            {
+                breakTileIndicator.SetActive(false);
+            }
+        }
+        else
+        {
+            breakTileIndicator.SetActive(false);
+        }
+
 
         if(headSubmerged)
         {

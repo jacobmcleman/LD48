@@ -53,13 +53,13 @@ public class UpgradeManager : MonoBehaviour
         public float swimSpeedIncrease;
     }
 
-    private float digSpeedIncrease;
-    private float digRangeIncrease;
+    private float digSpeedIncrease = 0;
+    private float digRangeIncrease = 0;
         
-    private float airRegenIncrease;
-    private float airCapIncrease;
+    private float airRegenIncrease = 0;
+    private float airCapIncrease = 0;
 
-    private float swimSpeedIncrease;
+    private float swimSpeedIncrease = 0;
 
     private List<Upgrade> purchasedUpgrades;
     private List<Upgrade> currentShopUpgrades;
@@ -142,7 +142,7 @@ public class UpgradeManager : MonoBehaviour
         airJets.image = airJetImage;
         airJets.digSpeedIncrease = 0;
         airJets.digRangeIncrease = 0;
-        airJets.airRegenIncrease = -0.2f;
+        airJets.airRegenIncrease = 0f;
         airJets.airCapIncrease = -5.0f;
         airJets.swimSpeedIncrease = 0.5f;
         availableUpgrades.Add(airJets);
@@ -191,5 +191,20 @@ public class UpgradeManager : MonoBehaviour
         longArms.airCapIncrease = 0;
         longArms.swimSpeedIncrease = 0;
         availableUpgrades.Add(longArms);
+
+        Upgrade digSpeed = new Upgrade();
+        digSpeed.name = "Drill Head Upgrade";
+        digSpeed.description = "Chew through material much faster";
+        digSpeed.tier = 0;
+        digSpeed.copperCost = 10;
+        digSpeed.ironCost = 0;
+        digSpeed.goldCost = 20;
+        digSpeed.image = longArmImage;
+        digSpeed.digSpeedIncrease = 0.25f;
+        digSpeed.digRangeIncrease = 0;
+        digSpeed.airRegenIncrease = 0;
+        digSpeed.airCapIncrease = 0;
+        digSpeed.swimSpeedIncrease = 0;
+        availableUpgrades.Add(digSpeed);
     }
 }
