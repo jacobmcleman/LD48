@@ -9,7 +9,8 @@ public class Pickup : MonoBehaviour
         GoldOre,
         IronOre,
         CopperOre,
-        AirBubble
+        AirBubble,
+        Fuel
     }
 
     public Type pickupType;

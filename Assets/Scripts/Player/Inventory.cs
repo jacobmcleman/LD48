@@ -21,6 +21,8 @@ public class Inventory : MonoBehaviour
     public AudioClip[] craftingSounds;
     public AudioClip[] gasFillupSounds;
 
+    public AudioClip[] bubbleSounds;
+
     public UnityEvent inventoryChanged;
 
     private void Start()
@@ -54,6 +56,11 @@ public class Inventory : MonoBehaviour
                     break;
                 case Pickup.Type.AirBubble:
                     playerController.AddAir(pick.amount);
+                    feedbackAudio.PlayOneShot(bubbleSounds[Random.Range(0, bubbleSounds.Length)]);
+                    break;
+                case Pickup.Type.Fuel:
+                    playerController.Refuel();
+                    feedbackAudio.PlayOneShot(gasFillupSounds[Random.Range(0, gasFillupSounds.Length)]);
                     break;
                 default:
                     Debug.LogWarningFormat("You haven't implemented pickup for {0} yet dummy", pick.pickupType);
