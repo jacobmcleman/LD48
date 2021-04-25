@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     private bool submerged;
     private bool headSubmerged;
 
+    private bool onLadder;
+
     private PlayerInput inputSystem;
 
     private CameraFollow camControl;
@@ -147,9 +149,9 @@ public class PlayerController : MonoBehaviour
         }
         
         float curMoveSpeed = submerged ? waterMoveSpeed : airMoveSpeed;
-        Vector2 moveVec = new Vector2(moveInput.x * curMoveSpeed, submerged ? moveInput.y * curMoveSpeed : 0);
+        Vector2 moveVec = new Vector2(moveInput.x * curMoveSpeed, (submerged || onLadder) ? moveInput.y * curMoveSpeed : 0);
 
-        controller2D.Move(moveVec, false, (!submerged && moveInput.y > 0.1f));
+        controller2D.Move(moveVec, false, (!submerged && !onLadder && moveInput.y > 0.1f));
 
         bool usingGamepad = lookInput.magnitude > 0.1f;
         Vector2 lookVec = lookInput * digRadius;
@@ -236,6 +238,10 @@ public class PlayerController : MonoBehaviour
             rigidbody2D.gravityScale = waterGravityScale;
             rigidbody2D.velocity *= 0.1f;
         }
+        else if(other.gameObject.tag == "Ladder")
+        {
+            onLadder = true;
+        }
     }
 
     void OnTriggerExit2D(Collider2D other)
@@ -245,6 +251,10 @@ public class PlayerController : MonoBehaviour
             submerged = false;
             rigidbody2D.drag = 0;
             rigidbody2D.gravityScale = 1;
+        }
+        else if(other.gameObject.tag == "Ladder")
+        {
+            onLadder = false;
         }
     }
 

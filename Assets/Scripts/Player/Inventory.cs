@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Inventory : MonoBehaviour
 {
@@ -18,9 +19,13 @@ public class Inventory : MonoBehaviour
 
     public AudioClip[] pickupPops;
 
+    public UnityEvent inventoryChanged;
+
     private void Start()
     {
         playerController = FindObjectOfType<PlayerController>();
+
+        inventoryChanged.Invoke();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -57,6 +62,8 @@ public class Inventory : MonoBehaviour
             Destroy(other.gameObject);
 
             feedbackAudio.PlayOneShot(pickupPops[Random.Range(0, pickupPops.Length)]);
+
+            inventoryChanged.Invoke();
         }
     }
 
@@ -106,5 +113,7 @@ public class Inventory : MonoBehaviour
                 iron = 0;
             }
         }
+
+        inventoryChanged.Invoke();
     }
 }

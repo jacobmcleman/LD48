@@ -382,12 +382,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eae9e11d9cd8ae145b4d7e2414aced91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waterGravityScale: 0.2
-  waterDrag: 0.8
+  waterGravityScale: 0.15
+  waterDrag: 0.6
   airMoveSpeed: 1.4
-  waterMoveSpeed: 0.4
+  waterMoveSpeed: 0.6
   digRadius: 5
-  airAmount: 10
+  airAmount: 15
   airRecoveryRate: 3
   airDecayRate: 1
   healthAmount: 10
@@ -406,6 +406,7 @@ MonoBehaviour:
   damageSoundInterval: 1.5
   lastDamageSoundTime: 0
   isDead: 0
+  deathDepth: -120
 --- !u!114 &224586246361640255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -659,7 +660,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 224586246924987402}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: -1.02, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224586246361640252}
