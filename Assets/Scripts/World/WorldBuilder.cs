@@ -38,6 +38,8 @@ public class WorldBuilder : MonoBehaviour
     public GameObject ironNuggetPrefab;
     public GameObject copperNuggetPrefab;
 
+    public GameObject stoneBreakEffectPrefab;
+
     public GameObject[] randomDebris;
 
     private int minExtent;
@@ -237,26 +239,43 @@ public class WorldBuilder : MonoBehaviour
         Tile brokenTile = (Tile)brokenType;
 
         GameObject toSpawn = null;
+        GameObject fx = null;
 
         if(brokenTile == goldTile)
         {
             toSpawn = goldNuggetPrefab;
+            fx = stoneBreakEffectPrefab;
         }
         else if(brokenTile == ironTile)
         {
+            fx = stoneBreakEffectPrefab;
             toSpawn = ironNuggetPrefab;
         }
         else if(brokenTile == copperTile)
         {
+            fx = stoneBreakEffectPrefab;
             toSpawn = copperNuggetPrefab;
+        }
+        else if(brokenTile == rockTile)
+        {
+            fx = stoneBreakEffectPrefab;
+        }
+
+        Vector3 position = terrainTiles.CellToWorld(tilePos) + new Vector3(0.5f, 0.5f, 0);
+
+        if(fx != null)
+        {
+            position.z = 1;
+            GameObject drop = Instantiate(fx, position, Quaternion.identity);
         }
 
         if(toSpawn != null)
         {
-            Vector3 position = terrainTiles.CellToWorld(tilePos);
             GameObject drop = Instantiate(toSpawn, position, Quaternion.identity);
             return drop;
         }
+
+        
 
         return null;
     }
