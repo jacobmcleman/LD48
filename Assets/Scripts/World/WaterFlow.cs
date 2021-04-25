@@ -49,14 +49,28 @@ public class WaterFlow : MonoBehaviour
     public void AddSlice(int x)
     {
         Vector3Int tilePos = new Vector3Int(x, waterLevel, 0);
+
+        bool buildingUp = false;
+
+        if(x > maxExtent)
+        {
+            maxExtent = x;
+            buildingUp = true;
+        } 
+        if(x < minExtent) minExtent = x;
+
         if(isWaterLoggable(terrainTiles.GetTile(tilePos)))
         {
             waterTiles.SetTile(tilePos, waterSurfaceTile);
             toUpdateNextFrame.Enqueue(tilePos);
+
+            for(int y = -depthLimit; y < waterLevel; ++y)
+            {
+                toUpdateNextFrame.Enqueue(new Vector3Int(x + (buildingUp ? -1 : 1), y, 0));
+            }
         }
 
-        if(x > maxExtent) maxExtent = x;
-        if(x < minExtent) minExtent = x;
+        
     }
 
     private void Update()

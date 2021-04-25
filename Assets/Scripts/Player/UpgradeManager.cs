@@ -11,6 +11,11 @@ public class UpgradeManager : MonoBehaviour
         get {return Instance.digSpeedIncrease; }
     }
 
+    public static float SadDigIncrease
+    {
+        get {return Instance.sadDigIncrease; }
+    }
+
     public static float DigRangeIncrease
     {
         get { return Instance.digRangeIncrease; }
@@ -35,7 +40,7 @@ public class UpgradeManager : MonoBehaviour
     {
         get { return Instance.drillFuelIncrease; }
     }
-
+    
     public struct Upgrade
     {
         public string name;
@@ -57,6 +62,7 @@ public class UpgradeManager : MonoBehaviour
 
         public float swimSpeedIncrease;
         public float drillFuelIncrease;
+        public float sadDigIncrease;
     }
 
     private float digSpeedIncrease = 0;
@@ -67,6 +73,7 @@ public class UpgradeManager : MonoBehaviour
 
     private float swimSpeedIncrease = 0;
     private float drillFuelIncrease = 0;
+    private float sadDigIncrease = 0;
 
     private List<Upgrade> purchasedUpgrades;
     private List<Upgrade> currentShopUpgrades;
@@ -79,6 +86,7 @@ public class UpgradeManager : MonoBehaviour
     public Sprite longArmImage;
     public Sprite drillSpeedImage;
     public Sprite drillFuelImage;
+    public Sprite sadDigImage;
 
     public List<Upgrade> GetShopUpgrades()
     {
@@ -103,6 +111,7 @@ public class UpgradeManager : MonoBehaviour
         airCapIncrease += purchased.airCapIncrease;
         swimSpeedIncrease += purchased.swimSpeedIncrease;
         drillFuelIncrease += purchased.drillFuelIncrease;
+        sadDigIncrease += purchased.sadDigIncrease;
 
         int numToGenerate = Random.Range(0, 4) / 2; // 3 / 4 options become 1, 4th is 2
         if(numToGenerate == 0) numToGenerate = 1;
@@ -141,6 +150,7 @@ public class UpgradeManager : MonoBehaviour
         flippers.airCapIncrease = 0;
         flippers.swimSpeedIncrease = 0.1f;
         flippers.drillFuelIncrease = 0.0f;
+        flippers.sadDigIncrease = 0.0f;
         availableUpgrades.Add(flippers);
         
         Upgrade airJets = new Upgrade();
@@ -157,6 +167,7 @@ public class UpgradeManager : MonoBehaviour
         airJets.airCapIncrease = -5.0f;
         airJets.swimSpeedIncrease = 0.5f;
         airJets.drillFuelIncrease = 0.0f;
+        airJets.sadDigIncrease = 0;
         availableUpgrades.Add(airJets);
 
         Upgrade airTank = new Upgrade();
@@ -173,6 +184,7 @@ public class UpgradeManager : MonoBehaviour
         airTank.airCapIncrease = 1.0f;
         airTank.swimSpeedIncrease = 0f;
         airTank.drillFuelIncrease = 0.0f;
+        airTank.sadDigIncrease = 0;
         availableUpgrades.Add(airTank);
 
         Upgrade airIntake = new Upgrade();
@@ -189,6 +201,7 @@ public class UpgradeManager : MonoBehaviour
         airIntake.airCapIncrease = 0;
         airIntake.swimSpeedIncrease = 0;
         airIntake.drillFuelIncrease = 0.0f;
+        airIntake.sadDigIncrease = 0;
         availableUpgrades.Add(airIntake);
 
         Upgrade longArms = new Upgrade();
@@ -205,6 +218,7 @@ public class UpgradeManager : MonoBehaviour
         longArms.airCapIncrease = 0;
         longArms.swimSpeedIncrease = 0;
         longArms.drillFuelIncrease = 0.0f;
+        longArms.sadDigIncrease = 0;
         availableUpgrades.Add(longArms);
 
         Upgrade digSpeed = new Upgrade();
@@ -221,6 +235,7 @@ public class UpgradeManager : MonoBehaviour
         digSpeed.airCapIncrease = 0;
         digSpeed.swimSpeedIncrease = 0;
         digSpeed.drillFuelIncrease = 0.0f;
+        digSpeed.sadDigIncrease = 0;
         availableUpgrades.Add(digSpeed);
 
         Upgrade drillFuel = new Upgrade();
@@ -237,6 +252,24 @@ public class UpgradeManager : MonoBehaviour
         drillFuel.airCapIncrease = 0;
         drillFuel.swimSpeedIncrease = 0;
         drillFuel.drillFuelIncrease = 5f;
+        drillFuel.sadDigIncrease = 0;
         availableUpgrades.Add(drillFuel);
+
+        Upgrade sadDig = new Upgrade();
+        sadDig.name = "Iron Hands";
+        sadDig.description = "Some might call this a shovel, and they're right";
+        sadDig.tier = 0;
+        sadDig.copperCost = 0;
+        sadDig.ironCost = 10;
+        sadDig.goldCost = 3;
+        sadDig.image = longArmImage;
+        sadDig.digSpeedIncrease = 0;
+        sadDig.digRangeIncrease = 0;
+        sadDig.airRegenIncrease = 0;
+        sadDig.airCapIncrease = 0;
+        sadDig.swimSpeedIncrease = 0;
+        sadDig.drillFuelIncrease = 0;
+        sadDig.sadDigIncrease = 0.1f;
+        availableUpgrades.Add(sadDig);
     }
 }

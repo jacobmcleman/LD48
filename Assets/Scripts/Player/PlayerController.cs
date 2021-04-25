@@ -47,9 +47,15 @@ public class PlayerController : MonoBehaviour
     private GameObject upgradeScreen;
 
     public float digSpeed = 0.5f;
+    public float slowDig = 0.25f;
     public float DigSpeed 
     {
-        get { return digSpeed + UpgradeManager.DigSpeedIncrease; }
+        get { return drillCurFuel > 0 ? digSpeed + UpgradeManager.DigSpeedIncrease : SlowDig; }
+    }
+
+    public float SlowDig 
+    {
+        get { return slowDig + UpgradeManager.SadDigIncrease; }
     }
 
     public float digRadius = 5;
@@ -93,6 +99,7 @@ public class PlayerController : MonoBehaviour
     public AudioClip[] bubbleSounds;
     public AudioClip[] oofSounds;
     public AudioClip[] drillSounds;
+    public AudioClip[] sadDigSounds;
 
     public AudioSource oofSource;
     public AudioSource bubbleSource;
@@ -262,7 +269,7 @@ public class PlayerController : MonoBehaviour
             tileIndicator.transform.position = builder.SnapToTile(cursor.transform.position) + new Vector3(0.5f, 0.5f, 0f);
         }
 
-        if(fireHeld && drillCurFuel > 0)
+        if(fireHeld)
         {
             Vector3Int currentAim = builder.SnapToGrid(cursor.transform.position);
             if(currentAim != currentlyDigging)
@@ -288,7 +295,12 @@ public class PlayerController : MonoBehaviour
                 if(!breakTileIndicator.activeSelf)
                 {
                     breakTileIndicator.SetActive(true);
-                    drillSource.PlayOneShot(drillSounds[Random.Range(0, drillSounds.Length)]);
+                    if(!drillSource.isPlaying) 
+                    {
+                        if(drillCurFuel > 0) drillSource.PlayOneShot(drillSounds[Random.Range(0, drillSounds.Length)]);
+                        else drillSource.PlayOneShot(sadDigSounds[Random.Range(0, sadDigSounds.Length)]);
+                    }
+                    
                 }
                 
                 Meter indicator = breakTileIndicator.GetComponent<Meter>();

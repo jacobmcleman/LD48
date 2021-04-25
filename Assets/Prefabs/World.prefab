@@ -64,8 +64,8 @@ MonoBehaviour:
   waterloggableTiles:
   - {fileID: 11400000, guid: 5c17e5cec9df1c04791503a89c71409b, type: 2}
   - {fileID: 11400000, guid: d21d7b08afc401b499f4f8f800334c14, type: 2}
-  xBounds: 1000
-  depthLimit: 100
+  xBounds: 2000
+  depthLimit: 250
   waterLevel: 0
   waterUpdateRate: 0.1
 --- !u!114 &2084243904230106741
@@ -81,8 +81,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seed: 0
-  xBounds: 100
-  depthLimit: 100
+  xBounds: 2000
+  depthLimit: 250
   waterLevel: 0
   minDepth: 10
   sandThickAvg: 4

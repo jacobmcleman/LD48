@@ -105,17 +105,17 @@ public class WorldBuilder : MonoBehaviour
         Vector3 camPos = Camera.main.transform.position;
         int camX = (int)camPos.x;
 
-        if(camX + 20 > maxExtent && maxExtent < xBounds) 
+        if(camX + 24 > maxExtent && maxExtent < xBounds) 
         {
-            for(int x = maxExtent; x < camX + 20 && x < xBounds; ++x)
+            for(int x = maxExtent; x < camX + 24 && x < xBounds; ++x)
             {
                 GenerateSlice(x);
             }
         }
 
-        if(camX - 20 < minExtent && minExtent > -xBounds) 
+        if(camX - 24 < minExtent && minExtent > -xBounds) 
         {
-            for(int x = minExtent - 1; x > camX - 20 && x > -xBounds; --x)
+            for(int x = minExtent - 1; x > camX - 24 && x > -xBounds; --x)
             {
                 GenerateSlice(x);
             }
@@ -158,41 +158,67 @@ public class WorldBuilder : MonoBehaviour
     {
         float heightSamplePos =  (x - xBounds) / 40.0f;
 
-        float hilliness = Mathf.PerlinNoise(heightSamplePos, noiseOffsetY - 1.0f);
-        float height = Helpers.Remap(hilliness * Mathf.PerlinNoise(heightSamplePos, noiseOffsetY), 0, 1, -minDepth, -depthLimit);
+        float hilliness = Mathf.PerlinNoise(heightSamplePos / 2, noiseOffsetY - 1.0f);
+        float hill = Helpers.Remap(hilliness * Mathf.PerlinNoise(heightSamplePos, noiseOffsetY), 0, 1, -minDepth, -depthLimit / 3);
+        float micro = Helpers.Remap(hilliness * Mathf.PerlinNoise(heightSamplePos * 20, noiseOffsetY), 0, 1, 0, -10);
+        float height = hill + micro;
         float sandThickness = Helpers.Remap(Mathf.PerlinNoise(heightSamplePos, noiseOffsetY + 0.5f), 1, 0, sandThickAvg + sandThickVariance, sandThickAvg - sandThickVariance);
 
-        for(int y = -depthLimit; y < height; ++y)
+        for(int y = -depthLimit; y < hill; ++y)
         {
-            
-
             Tile toPlace = y < (height - sandThickness) ? rockTile : sandTile;
+
+            float holeSampleXpos = (x - xBounds) / 12.0f;
+            float holeSampleYpos = (y) / 51.0f  + noiseOffsetY;
+
+            float plasmaSampleXpos = (x) / 32.0f;
+            float plasmaSampleYpos = (y) / 5.0f  + noiseOffsetY;
+            
+            float caveDensity = Helpers.Remap(y, -minDepth, -depthLimit, 0.6f, 0.85f);
+            float holesCave = (Mathf.PerlinNoise(holeSampleXpos, holeSampleYpos) + Mathf.PerlinNoise(plasmaSampleXpos, plasmaSampleYpos) ) / 2.0f;
+            float plasmaCave = Mathf.Sin(Mathf.PerlinNoise(plasmaSampleXpos, plasmaSampleYpos) * Mathf.PerlinNoise(plasmaSampleXpos, plasmaSampleYpos) * Mathf.PI);
+            
+            float caveDetail = Mathf.PerlinNoise(x / 3f, y / 3f);
+
+            float plasmaWeight = 2;
+            float holesWeight = 3;
+            float noiseWeight = 1;
+            
+            float cave = ((holesCave * holesWeight) + (plasmaCave * plasmaWeight) + (caveDetail * noiseWeight)) / (plasmaWeight + holesWeight + noiseWeight);
+
+            if(cave > caveDensity)
+            {
+                toPlace = null;
+            }
 
             if(toPlace == rockTile)
             {
                 float goldOreSampleXpos = (x - xBounds) / 70.0f;
                 float goldOreSampleYpos = (y) / 20.0f;
                 float goldOre = Mathf.PerlinNoise(goldOreSampleXpos, goldOreSampleYpos);
+                float goldDensity = Helpers.Remap(y, -minDepth, -depthLimit, 0.8f, 0.4f);
 
                 float ironOreSampleXpos = (x - xBounds) / 40.0f;
                 float ironOreSampleYpos = (y) / 15.0f;
                 float ironOre = Mathf.PerlinNoise(ironOreSampleXpos, ironOreSampleYpos);
+                float ironDensity = Helpers.Remap(y, -minDepth, -depthLimit, 0.75f, 0.6f);
 
                 float copperOreSampleXpos = (x - xBounds) / 55.0f;
                 float copperOreSampleYpos = (y) / 17.0f;
                 float copperOre = Mathf.PerlinNoise(copperOreSampleXpos, copperOreSampleYpos);
+                float copperDensity = Helpers.Remap(y, -minDepth, -depthLimit, 0.7f, 0.5f);
 
-                if(ironOre > 0.6f && Random.Range(0.6f, 1f) < ironOre)
+                if(goldOre > goldDensity && Random.Range(goldDensity, 1f) < goldOre)
                 {
-                    toPlace = ironTile;
+                    toPlace = goldTile;
                 }
-                if(copperOre > 0.7f && Random.Range(0.7f, 1f) < copperOre)
+                else if(copperOre > copperDensity && Random.Range(copperDensity, 1f) < copperOre)
                 {
                     toPlace = copperTile;
                 }
-                if(goldOre > 0.8f && Random.Range(0.8f, 1f) < goldOre)
+                else if(ironOre > ironDensity && Random.Range(ironDensity, 1f) < ironOre)
                 {
-                    toPlace = goldTile;
+                    toPlace = ironTile;
                 }
             }
 
