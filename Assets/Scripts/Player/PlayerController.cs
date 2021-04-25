@@ -106,6 +106,11 @@ public class PlayerController : MonoBehaviour
     private Vector3Int currentlyDigging;
     private float currentTileDigTime;
 
+    public Sprite idleSprite;
+    public Sprite moveSprite;
+
+    private SpriteRenderer spriteRenderer;
+
     private void Awake()
     {
         submerged = false;
@@ -115,6 +120,7 @@ public class PlayerController : MonoBehaviour
 
         controller2D = GetComponent<CharacterController2D>();
         rigidbody2D = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         curAir = AirCapacity;
         curHealth = healthAmount;
@@ -190,6 +196,15 @@ public class PlayerController : MonoBehaviour
         {
             DoDeath("Delved too deep");
             return;
+        }
+
+        if(Mathf.Abs(moveInput.x) > 0.1f)
+        {
+            spriteRenderer.sprite = moveSprite;
+        }
+        else 
+        {
+            spriteRenderer.sprite = idleSprite;
         }
         
         float curMoveSpeed = submerged ? WaterMoveSpeed : airMoveSpeed;
