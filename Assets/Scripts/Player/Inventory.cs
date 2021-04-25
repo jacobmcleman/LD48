@@ -18,6 +18,8 @@ public class Inventory : MonoBehaviour
     public AudioSource feedbackAudio;
 
     public AudioClip[] pickupPops;
+    public AudioClip[] craftingSounds;
+    public AudioClip[] gasFillupSounds;
 
     public UnityEvent inventoryChanged;
 
@@ -75,6 +77,10 @@ public class Inventory : MonoBehaviour
         iron -= ironCost;
         copper -= copperCost;
         inventoryChanged.Invoke();
+
+        if(goldCost > 1) feedbackAudio.PlayOneShot(craftingSounds[Random.Range(0, craftingSounds.Length)]);
+        else feedbackAudio.PlayOneShot(gasFillupSounds[Random.Range(0, gasFillupSounds.Length)]);
+
         return true;
     }
 

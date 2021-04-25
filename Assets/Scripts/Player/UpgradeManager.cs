@@ -40,7 +40,7 @@ public class UpgradeManager : MonoBehaviour
     {
         get { return Instance.drillFuelIncrease; }
     }
-    
+
     public struct Upgrade
     {
         public string name;
@@ -228,7 +228,7 @@ public class UpgradeManager : MonoBehaviour
         digSpeed.copperCost = 10;
         digSpeed.ironCost = 0;
         digSpeed.goldCost = 20;
-        digSpeed.image = longArmImage;
+        digSpeed.image = drillSpeedImage;
         digSpeed.digSpeedIncrease = 0.25f;
         digSpeed.digRangeIncrease = 0;
         digSpeed.airRegenIncrease = 0;
@@ -245,7 +245,7 @@ public class UpgradeManager : MonoBehaviour
         drillFuel.copperCost = 10;
         drillFuel.ironCost = 0;
         drillFuel.goldCost = 20;
-        drillFuel.image = longArmImage;
+        drillFuel.image = drillFuelImage;
         drillFuel.digSpeedIncrease = 0;
         drillFuel.digRangeIncrease = 0;
         drillFuel.airRegenIncrease = 0;
@@ -262,7 +262,7 @@ public class UpgradeManager : MonoBehaviour
         sadDig.copperCost = 0;
         sadDig.ironCost = 10;
         sadDig.goldCost = 3;
-        sadDig.image = longArmImage;
+        sadDig.image = sadDigImage;
         sadDig.digSpeedIncrease = 0;
         sadDig.digRangeIncrease = 0;
         sadDig.airRegenIncrease = 0;

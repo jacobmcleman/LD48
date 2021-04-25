@@ -288,6 +288,7 @@ public class PlayerController : MonoBehaviour
 
                 fuelMeter.maxVal = DrillMaxFuel;
                 fuelMeter.Value = drillCurFuel;
+                currentTileDigTime = 0;
             }
 
             if(builder.TilePresent(cursor.transform.position))
