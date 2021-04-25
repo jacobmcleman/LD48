@@ -151,8 +151,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec33380837c72174798748a26a77e1bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupType: 1
-  amount: 4
+  pickupType: 3
+  amount: 1
   OnPickup:
     m_PersistentCalls:
       m_Calls: []

@@ -13,6 +13,10 @@ public class CameraFollow : MonoBehaviour
 
     private Vector2 curVel = Vector2.zero;
 
+    public Gradient backgroundColor;
+    public float maxSkyHeight = 20;
+    public float maxDepth = -100;
+
     private void Start()
     {
         // Idiot-proofing
@@ -28,6 +32,10 @@ public class CameraFollow : MonoBehaviour
             Vector2 panPos = Vector2.SmoothDamp(transform.position, targetPos, ref curVel, smoothDampTime, panRate);
 
             transform.position = new Vector3(panPos.x, panPos.y, transform.position.z);
+
+            float heightParam = Helpers.Remap(transform.position.y, maxDepth, maxSkyHeight, 0, 1);
+            heightParam = Mathf.Clamp01(heightParam);
+            Camera.main.backgroundColor = backgroundColor.Evaluate(heightParam);
         }
     }
 }

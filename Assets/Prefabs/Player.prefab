@@ -384,7 +384,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waterGravityScale: 0.2
   waterDrag: 0.8
-  airMoveSpeed: 0.8
+  airMoveSpeed: 1.4
   waterMoveSpeed: 0.4
   digRadius: 5
   airAmount: 10
@@ -418,13 +418,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d76c8f88496e7a54f8b522203e83d181, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_JumpForce: 40
+  m_JumpForce: 60
   m_CrouchSpeed: 0.36
   m_MovementSmoothing: 0.043
   m_AirControl: 1
   m_WhatIsGround:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 4294967295
   m_GroundCheck: {fileID: 224586246924987403}
   m_CeilingCheck: {fileID: 224586246345738294}
   m_CrouchDisableCollider: {fileID: 0}
@@ -452,6 +452,11 @@ MonoBehaviour:
   ironNuggetPrefab: {fileID: 7318723966325832586, guid: 70565bd5aea59db468da8387e51a8773, type: 3}
   copper: 0
   copperNuggetPrefab: {fileID: 3119323222893604313, guid: 180f9515591a13e409b52f1bffd1919d, type: 3}
+  feedbackAudio: {fileID: 1727570089}
+  pickupPops:
+  - {fileID: 8300000, guid: ed40ec5580d3bc74f90d5aeff19de380, type: 3}
+  - {fileID: 8300000, guid: 3c974ac8a8ecf8543a9fac3b714d3c12, type: 3}
+  - {fileID: 8300000, guid: 0aed41f00f550fd4bbcce80e1cd094e1, type: 3}
 --- !u!82 &1727570089
 AudioSource:
   m_ObjectHideFlags: 0

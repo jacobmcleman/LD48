@@ -65,6 +65,8 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 spawnPosition;
 
+    public float deathDepth = -120f;
+
     private void Awake()
     {
         submerged = false;
@@ -123,7 +125,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnFire(InputValue value)
     {
-        builder.Dig(cursor.transform.position);
+        if(!isDead) builder.Dig(cursor.transform.position);
     }
 
     public void AddAir(float amount)
@@ -135,8 +137,12 @@ public class PlayerController : MonoBehaviour
     {
         if(isDead)
         {
+            return;
+        }
 
-
+        if(transform.position.y < deathDepth)
+        {
+            DoDeath("Delved too deep");
             return;
         }
         
