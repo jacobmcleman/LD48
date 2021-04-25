@@ -84,9 +84,11 @@ public class PlayerController : MonoBehaviour
 
     public AudioClip[] bubbleSounds;
     public AudioClip[] oofSounds;
+    public AudioClip[] drillSounds;
 
     public AudioSource oofSource;
     public AudioSource bubbleSource;
+    public AudioSource drillSource;
 
     public float damageSoundInterval = 1.5f;
     public float lastDamageSoundTime;
@@ -263,7 +265,12 @@ public class PlayerController : MonoBehaviour
 
             if(builder.TilePresent(cursor.transform.position))
             {
-                breakTileIndicator.SetActive(true);
+                if(!breakTileIndicator.activeSelf)
+                {
+                    breakTileIndicator.SetActive(true);
+                    drillSource.PlayOneShot(drillSounds[Random.Range(0, drillSounds.Length)]);
+                }
+                
                 Meter indicator = breakTileIndicator.GetComponent<Meter>();
                 indicator.maxVal = (1 / DigSpeed);
                 indicator.Value = currentTileDigTime;
