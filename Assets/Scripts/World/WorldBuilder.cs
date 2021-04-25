@@ -4,6 +4,14 @@ using System.Collections.Generic;
 
 public class WorldBuilder : MonoBehaviour
 {
+    public enum TileType
+    {
+        Sand,
+        Stone,
+        Ore, 
+        Air
+    }
+
     private Tilemap terrainTiles;
 
     public int seed = 0;
@@ -228,7 +236,7 @@ public class WorldBuilder : MonoBehaviour
     }
 
     
-    public TileBase Dig(Vector3 worldPos)
+    public TileType Dig(Vector3 worldPos)
     {
         Vector3Int tilePos = terrainTiles.WorldToCell(worldPos);
         TileBase present = terrainTiles.GetTile(tilePos);
@@ -241,7 +249,10 @@ public class WorldBuilder : MonoBehaviour
             SpawnDrops(present, tilePos);
         }
 
-        return present;
+        if(present == null) return TileType.Air;
+        if(present == sandTile) return TileType.Sand;
+        if(present == rockTile) return TileType.Stone;
+        else return TileType.Ore;
     }
 
     public Vector3 SnapToTile(Vector3 worldPos)

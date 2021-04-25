@@ -58,6 +58,13 @@ public class PlayerController : MonoBehaviour
         get { return digRadius + UpgradeManager.DigRangeIncrease; }
     }
 
+    public float drillBaseFuel = 20;
+    private float drillCurFuel;
+    public float DrillMaxFuel
+    {
+        get { return drillBaseFuel + UpgradeManager.DrillFuelIncrease; }
+    }
+
     public float airAmount = 10;
 
     public float AirCapacity 
@@ -81,6 +88,7 @@ public class PlayerController : MonoBehaviour
 
     private Meter airMeter;
     private Meter healthMeter;
+    private Meter fuelMeter;
 
     public AudioClip[] bubbleSounds;
     public AudioClip[] oofSounds;
@@ -130,6 +138,8 @@ public class PlayerController : MonoBehaviour
         lastDamageSoundTime = Time.time;
 
         spawnPosition = transform.position;
+
+        drillCurFuel = DrillMaxFuel;
     }
 
     private void Start()
@@ -150,6 +160,11 @@ public class PlayerController : MonoBehaviour
         healthMeter.maxVal = healthAmount;
         healthMeter.minVal = 0;
         healthMeter.Value = curHealth;
+
+        fuelMeter = GameObject.Find("FuelBar").GetComponent<Meter>();
+        fuelMeter.maxVal = DrillMaxFuel;
+        fuelMeter.minVal = 0;
+        fuelMeter.Value = drillCurFuel;
 
         builder = FindObjectOfType<WorldBuilder>();
 
@@ -247,7 +262,7 @@ public class PlayerController : MonoBehaviour
             tileIndicator.transform.position = builder.SnapToTile(cursor.transform.position) + new Vector3(0.5f, 0.5f, 0f);
         }
 
-        if(fireHeld)
+        if(fireHeld && drillCurFuel > 0)
         {
             Vector3Int currentAim = builder.SnapToGrid(cursor.transform.position);
             if(currentAim != currentlyDigging)
@@ -260,7 +275,12 @@ public class PlayerController : MonoBehaviour
 
             if(currentTileDigTime >= (1 / DigSpeed))
             {
-                builder.Dig(cursor.transform.position);
+                float fuelCost = builder.Dig(cursor.transform.position) == WorldBuilder.TileType.Sand ? 0.25f : 1.0f;
+                drillCurFuel -= fuelCost;
+                if(drillCurFuel < 0) drillCurFuel = 0;
+
+                fuelMeter.maxVal = DrillMaxFuel;
+                fuelMeter.Value = drillCurFuel;
             }
 
             if(builder.TilePresent(cursor.transform.position))
@@ -283,6 +303,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             breakTileIndicator.SetActive(false);
+            currentTileDigTime = 0;
         }
 
 
@@ -385,5 +406,17 @@ public class PlayerController : MonoBehaviour
         curAir = AirCapacity;
         curHealth = healthAmount;
         transform.position = spawnPosition;
+    }
+
+    public bool NeedFuel()
+    {
+        return drillCurFuel < DrillMaxFuel;
+    }
+
+    public void Refuel()
+    {
+        drillCurFuel = DrillMaxFuel;
+        fuelMeter.maxVal = DrillMaxFuel;
+        fuelMeter.Value = drillCurFuel;
     }
 }

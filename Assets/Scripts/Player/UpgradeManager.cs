@@ -31,6 +31,11 @@ public class UpgradeManager : MonoBehaviour
         get { return Instance.swimSpeedIncrease; }
     }
 
+    public static float DrillFuelIncrease
+    {
+        get { return Instance.drillFuelIncrease; }
+    }
+
     public struct Upgrade
     {
         public string name;
@@ -51,6 +56,7 @@ public class UpgradeManager : MonoBehaviour
         public float airCapIncrease;
 
         public float swimSpeedIncrease;
+        public float drillFuelIncrease;
     }
 
     private float digSpeedIncrease = 0;
@@ -60,6 +66,7 @@ public class UpgradeManager : MonoBehaviour
     private float airCapIncrease = 0;
 
     private float swimSpeedIncrease = 0;
+    private float drillFuelIncrease = 0;
 
     private List<Upgrade> purchasedUpgrades;
     private List<Upgrade> currentShopUpgrades;
@@ -70,6 +77,8 @@ public class UpgradeManager : MonoBehaviour
     public Sprite airTankImage;
     public Sprite airIntakeImage;
     public Sprite longArmImage;
+    public Sprite drillSpeedImage;
+    public Sprite drillFuelImage;
 
     public List<Upgrade> GetShopUpgrades()
     {
@@ -93,6 +102,7 @@ public class UpgradeManager : MonoBehaviour
         airRegenIncrease += purchased.airRegenIncrease;
         airCapIncrease += purchased.airCapIncrease;
         swimSpeedIncrease += purchased.swimSpeedIncrease;
+        drillFuelIncrease += purchased.drillFuelIncrease;
 
         int numToGenerate = Random.Range(0, 4) / 2; // 3 / 4 options become 1, 4th is 2
         if(numToGenerate == 0) numToGenerate = 1;
@@ -130,6 +140,7 @@ public class UpgradeManager : MonoBehaviour
         flippers.airRegenIncrease = 0;
         flippers.airCapIncrease = 0;
         flippers.swimSpeedIncrease = 0.1f;
+        flippers.drillFuelIncrease = 0.0f;
         availableUpgrades.Add(flippers);
         
         Upgrade airJets = new Upgrade();
@@ -145,6 +156,7 @@ public class UpgradeManager : MonoBehaviour
         airJets.airRegenIncrease = 0f;
         airJets.airCapIncrease = -5.0f;
         airJets.swimSpeedIncrease = 0.5f;
+        airJets.drillFuelIncrease = 0.0f;
         availableUpgrades.Add(airJets);
 
         Upgrade airTank = new Upgrade();
@@ -160,6 +172,7 @@ public class UpgradeManager : MonoBehaviour
         airTank.airRegenIncrease = 0f;
         airTank.airCapIncrease = 1.0f;
         airTank.swimSpeedIncrease = 0f;
+        airTank.drillFuelIncrease = 0.0f;
         availableUpgrades.Add(airTank);
 
         Upgrade airIntake = new Upgrade();
@@ -175,6 +188,7 @@ public class UpgradeManager : MonoBehaviour
         airIntake.airRegenIncrease = 0.3f;
         airIntake.airCapIncrease = 0;
         airIntake.swimSpeedIncrease = 0;
+        airIntake.drillFuelIncrease = 0.0f;
         availableUpgrades.Add(airIntake);
 
         Upgrade longArms = new Upgrade();
@@ -190,6 +204,7 @@ public class UpgradeManager : MonoBehaviour
         longArms.airRegenIncrease = 0;
         longArms.airCapIncrease = 0;
         longArms.swimSpeedIncrease = 0;
+        longArms.drillFuelIncrease = 0.0f;
         availableUpgrades.Add(longArms);
 
         Upgrade digSpeed = new Upgrade();
@@ -205,6 +220,23 @@ public class UpgradeManager : MonoBehaviour
         digSpeed.airRegenIncrease = 0;
         digSpeed.airCapIncrease = 0;
         digSpeed.swimSpeedIncrease = 0;
+        digSpeed.drillFuelIncrease = 0.0f;
         availableUpgrades.Add(digSpeed);
+
+        Upgrade drillFuel = new Upgrade();
+        drillFuel.name = "Fuel Tank Enhancement";
+        drillFuel.description = "Sqeeze more gas in the can, what could go wrong?";
+        drillFuel.tier = 0;
+        drillFuel.copperCost = 10;
+        drillFuel.ironCost = 0;
+        drillFuel.goldCost = 20;
+        drillFuel.image = longArmImage;
+        drillFuel.digSpeedIncrease = 0;
+        drillFuel.digRangeIncrease = 0;
+        drillFuel.airRegenIncrease = 0;
+        drillFuel.airCapIncrease = 0;
+        drillFuel.swimSpeedIncrease = 0;
+        drillFuel.drillFuelIncrease = 5f;
+        availableUpgrades.Add(drillFuel);
     }
 }
