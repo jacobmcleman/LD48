@@ -24,6 +24,11 @@ public class PlayerController : MonoBehaviour
 
     public float waterMoveSpeed = 1;
 
+    public float WaterMoveSpeed 
+    {
+        get { return waterMoveSpeed + UpgradeManager.SwimSpeedIncrease; }
+    }
+
     private Vector2 moveInput;
     private Vector2 lookInput;
 
@@ -37,8 +42,28 @@ public class PlayerController : MonoBehaviour
 
     public float digRadius = 5;
 
+    public bool inUpgradeScreen;
+
+    private GameObject upgradeScreen;
+
+    public float DigRange 
+    {
+        get { return digRadius + UpgradeManager.DigRangeIncrease; }
+    }
+
     public float airAmount = 10;
+
+    public float AirCapacity 
+    {
+        get { return airAmount + UpgradeManager.AirCapacityIncrease; }
+    }
+
     public float airRecoveryRate = 3;
+
+    public float AirRecoveryRate
+    {
+        get { return airRecoveryRate + UpgradeManager.AirCapacityIncrease; }
+    }
     public float airDecayRate = 1;
     private float curAir;
 
@@ -72,11 +97,13 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         submerged = false;
+        inUpgradeScreen = false;
+        onLadder = false;
 
         controller2D = GetComponent<CharacterController2D>();
         rigidbody2D = GetComponent<Rigidbody2D>();
 
-        curAir = airAmount;
+        curAir = AirCapacity;
         curHealth = healthAmount;
 
         lastDamageSoundTime = Time.time;
@@ -93,7 +120,7 @@ public class PlayerController : MonoBehaviour
         head = transform.Find("Head");
 
         airMeter = GameObject.Find("AirBar").GetComponent<Meter>();
-        airMeter.maxVal = airAmount;
+        airMeter.maxVal = AirCapacity;
         airMeter.minVal = 0;
         airMeter.Value = curAir;
 
@@ -106,6 +133,9 @@ public class PlayerController : MonoBehaviour
 
         deathUI = GameObject.Find("DeathMessage");
         deathUI.SetActive(false);
+
+        upgradeScreen = GameObject.Find("Upgrade Screen");
+        upgradeScreen.SetActive(false);
 
         camControl = Camera.main.GetComponent<CameraFollow>();
     }
@@ -148,17 +178,17 @@ public class PlayerController : MonoBehaviour
             return;
         }
         
-        float curMoveSpeed = submerged ? waterMoveSpeed : airMoveSpeed;
+        float curMoveSpeed = submerged ? WaterMoveSpeed : airMoveSpeed;
         Vector2 moveVec = new Vector2(moveInput.x * curMoveSpeed, (submerged || onLadder) ? moveInput.y * curMoveSpeed : 0);
 
         controller2D.Move(moveVec, false, (!submerged && !onLadder && moveInput.y > 0.1f));
 
         bool usingGamepad = lookInput.magnitude > 0.1f;
-        Vector2 lookVec = lookInput * digRadius;
+        Vector2 lookVec = lookInput * DigRange;
         if(!usingGamepad)
         {
             Vector2 relativeMouse = mousePosition - transform.position;
-            if(relativeMouse.magnitude > digRadius) lookVec = relativeMouse.normalized * digRadius;
+            if(relativeMouse.magnitude > DigRange) lookVec = relativeMouse.normalized * DigRange;
             else lookVec = relativeMouse;
 
             trueCursor.transform.localPosition = relativeMouse;
@@ -170,7 +200,7 @@ public class PlayerController : MonoBehaviour
         
         //camControl.offset = lookVec;
         
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, lookVec, digRadius, 8);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, lookVec, DigRange, 8);
         if(hit.collider == null) 
         {
             tileIndicator.SetActive(false);
@@ -192,9 +222,10 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            curAir += Time.deltaTime * airRecoveryRate;
+            curAir += Time.deltaTime * AirRecoveryRate;
         }
-        curAir = Mathf.Clamp(curAir, 0, airAmount);
+        curAir = Mathf.Clamp(curAir, 0, AirCapacity);
+        airMeter.maxVal = AirCapacity;
         airMeter.Value = curAir;
 
         if(curAir == 0)
@@ -242,6 +273,11 @@ public class PlayerController : MonoBehaviour
         {
             onLadder = true;
         }
+        else if(other.gameObject.tag == "UpgradeArea")
+        {
+            inUpgradeScreen = true;
+            upgradeScreen.SetActive(true);
+        }
     }
 
     void OnTriggerExit2D(Collider2D other)
@@ -255,6 +291,11 @@ public class PlayerController : MonoBehaviour
         else if(other.gameObject.tag == "Ladder")
         {
             onLadder = false;
+        }
+        else if(other.gameObject.tag == "UpgradeArea")
+        {
+            inUpgradeScreen = false;
+            upgradeScreen.SetActive(false);
         }
     }
 
@@ -271,7 +312,7 @@ public class PlayerController : MonoBehaviour
         deathUI.SetActive(false);
         isDead = false;
 
-        curAir = airAmount;
+        curAir = AirCapacity;
         curHealth = healthAmount;
         transform.position = spawnPosition;
     }

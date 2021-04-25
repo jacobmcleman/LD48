@@ -67,6 +67,17 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public bool TryPurchase(int goldCost, int ironCost, int copperCost)
+    {
+        if(gold < goldCost || iron < ironCost || copper < copperCost) return false;
+
+        gold -= goldCost;
+        iron -= ironCost;
+        copper -= copperCost;
+        inventoryChanged.Invoke();
+        return true;
+    }
+
     public void DropAll()
     {
         while(gold > 0)
