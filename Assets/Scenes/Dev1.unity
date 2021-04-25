@@ -435,6 +435,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224586246361640253, guid: 9b2d9dce9c202444faa15a9f889a3968, type: 3}
+      propertyPath: digSpeed
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 224586246361640253, guid: 9b2d9dce9c202444faa15a9f889a3968, type: 3}
       propertyPath: idleSprite
       value: 
       objectReference: {fileID: -6290449581119604418, guid: 84fda799e6fda5648951594189f3f9c2, type: 3}
