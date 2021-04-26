@@ -41,7 +41,8 @@ public class PlayerController : MonoBehaviour
 
     private WorldBuilder builder;
 
-    
+    private MainMenuUI menuUI;
+
     public bool inUpgradeScreen;
 
     private GameObject upgradeScreen;
@@ -139,14 +140,14 @@ public class PlayerController : MonoBehaviour
         rigidbody2D = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        curAir = AirCapacity;
+        curAir = airAmount;
         curHealth = healthAmount;
 
         lastDamageSoundTime = Time.time;
 
         spawnPosition = transform.position;
 
-        drillCurFuel = DrillMaxFuel;
+        drillCurFuel = drillBaseFuel;
     }
 
     private void Start()
@@ -155,6 +156,8 @@ public class PlayerController : MonoBehaviour
         trueCursor = transform.Find("TrueCursor").gameObject;
         tileIndicator = transform.Find("TileIndicator").gameObject;
         breakTileIndicator = tileIndicator.transform.Find("BreakAnimation").gameObject;
+
+        menuUI = FindObjectOfType<MainMenuUI>();
 
         head = transform.Find("Head");
 
@@ -189,6 +192,18 @@ public class PlayerController : MonoBehaviour
         moveInput = value.Get<Vector2>();
     }
 
+    public void OnPause(InputValue value)
+    {
+        if(menuUI.paused && menuUI.hasStarted) 
+        {
+            menuUI.StartResumeGame();
+        }
+        else if (menuUI.hasStarted)
+        {
+            menuUI.PauseGame();
+        }
+    }
+
     public void OnLook(InputValue value)
     {
         lookInput = value.Get<Vector2>();
@@ -211,7 +226,16 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if(isDead)
+        if(Keyboard.current[Key.F1].wasPressedThisFrame)
+        {
+            string path = Application.persistentDataPath;
+            path += "/Screenshot_";
+            path += System.DateTime.Now.Ticks;
+            path += ".png";
+            ScreenCapture.CaptureScreenshot(path);
+        }
+
+        if(isDead || menuUI.paused)
         {
             return;
         }

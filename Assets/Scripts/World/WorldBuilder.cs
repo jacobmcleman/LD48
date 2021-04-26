@@ -66,8 +66,8 @@ public class WorldBuilder : MonoBehaviour
         noiseOffsetY = Random.Range(int.MinValue, int.MaxValue);
 
         
-        minExtent = -20;
-        maxExtent = 20;
+        minExtent = -30;
+        maxExtent = 30;
         for(int x = minExtent; x < maxExtent; ++x)
         {
             GenerateSlice(x);
@@ -107,17 +107,17 @@ public class WorldBuilder : MonoBehaviour
         Vector3 camPos = Camera.main.transform.position;
         int camX = (int)camPos.x;
 
-        if(camX + 24 > maxExtent && maxExtent < xBounds) 
+        if(camX + 30 > maxExtent && maxExtent < xBounds) 
         {
-            for(int x = maxExtent; x < camX + 24 && x < xBounds; ++x)
+            for(int x = maxExtent; x < camX + 30 && x < xBounds; ++x)
             {
                 GenerateSlice(x);
             }
         }
 
-        if(camX - 24 < minExtent && minExtent > -xBounds) 
+        if(camX - 30 < minExtent && minExtent > -xBounds) 
         {
-            for(int x = minExtent - 1; x > camX - 24 && x > -xBounds; --x)
+            for(int x = minExtent - 1; x > camX - 30 && x > -xBounds; --x)
             {
                 GenerateSlice(x);
             }

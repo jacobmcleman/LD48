@@ -172,7 +172,7 @@ public class UpgradeManager : MonoBehaviour
 
         Upgrade airTank = new Upgrade();
         airTank.name = "Air Tank";
-        airTank.description = "Turns out in this case bigger is better";
+        airTank.description = "Turns out that in this case bigger is better";
         airTank.tier = 0;
         airTank.copperCost = 10;
         airTank.ironCost = 0;
@@ -189,7 +189,7 @@ public class UpgradeManager : MonoBehaviour
 
         Upgrade airIntake = new Upgrade();
         airIntake.name = "Air Intakes";
-        airIntake.description = "Not sure this is the intended use, but air go brrr";
+        airIntake.description = "Not sure that this is the intended use for this thing, but air go brrr";
         airIntake.tier = 0;
         airIntake.copperCost = 8;
         airIntake.ironCost = 0;
@@ -223,7 +223,7 @@ public class UpgradeManager : MonoBehaviour
 
         Upgrade digSpeed = new Upgrade();
         digSpeed.name = "Drill Head Upgrade";
-        digSpeed.description = "Chew through material much faster";
+        digSpeed.description = "Chews through material much faster";
         digSpeed.tier = 0;
         digSpeed.copperCost = 10;
         digSpeed.ironCost = 0;
@@ -257,7 +257,7 @@ public class UpgradeManager : MonoBehaviour
 
         Upgrade sadDig = new Upgrade();
         sadDig.name = "Iron Hands";
-        sadDig.description = "Some might call this a shovel, and they're right";
+        sadDig.description = "Some might call this a mere shovel, and they're probably right";
         sadDig.tier = 0;
         sadDig.copperCost = 0;
         sadDig.ironCost = 10;

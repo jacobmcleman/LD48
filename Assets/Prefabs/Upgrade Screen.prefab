@@ -1014,16 +1014,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea73030771648034b925802d8d3b9e6c, type: 3}
---- !u!224 &8390863891348089630 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 4631797605466552672, guid: ea73030771648034b925802d8d3b9e6c, type: 3}
-  m_PrefabInstance: {fileID: 3761953889065292414}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8390863891348089631 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4631797605466552673, guid: ea73030771648034b925802d8d3b9e6c, type: 3}
-  m_PrefabInstance: {fileID: 3761953889065292414}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &3971330764359960529 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 227472924358170031, guid: ea73030771648034b925802d8d3b9e6c, type: 3}
@@ -1035,6 +1025,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf1bf011abea79646860283c65ba7016, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &8390863891348089630 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4631797605466552672, guid: ea73030771648034b925802d8d3b9e6c, type: 3}
+  m_PrefabInstance: {fileID: 3761953889065292414}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8390863891348089631 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4631797605466552673, guid: ea73030771648034b925802d8d3b9e6c, type: 3}
+  m_PrefabInstance: {fileID: 3761953889065292414}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8390863892435061648
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1130,34 +1130,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Upgrade Button 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4631797605466552675, guid: ea73030771648034b925802d8d3b9e6c, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4631797605466552675, guid: ea73030771648034b925802d8d3b9e6c, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4631797605466552675, guid: ea73030771648034b925802d8d3b9e6c, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 8600313069209198143}
-    - target: {fileID: 4631797605466552675, guid: ea73030771648034b925802d8d3b9e6c, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4631797605466552675, guid: ea73030771648034b925802d8d3b9e6c, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: TryPurchase
-      objectReference: {fileID: 0}
-    - target: {fileID: 4631797605466552675, guid: ea73030771648034b925802d8d3b9e6c, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UpgradeButton, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4631797605466552675, guid: ea73030771648034b925802d8d3b9e6c, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea73030771648034b925802d8d3b9e6c, type: 3}
 --- !u!1 &3761953887979369201 stripped
@@ -1165,17 +1137,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4631797605466552673, guid: ea73030771648034b925802d8d3b9e6c, type: 3}
   m_PrefabInstance: {fileID: 8390863892435061648}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8600313069209198143 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 227472924358170031, guid: ea73030771648034b925802d8d3b9e6c, type: 3}
-  m_PrefabInstance: {fileID: 8390863892435061648}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3761953887979369201}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf1bf011abea79646860283c65ba7016, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &3761953887979369200 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4631797605466552672, guid: ea73030771648034b925802d8d3b9e6c, type: 3}
