@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class SaveStateManager : MonoBehaviour
 {
     public UnityEvent<string> onSaveTriggered;
+    public UnityEvent<string> onLoadTriggered;
 
     public string saveFileName = "test_save";
 
@@ -16,10 +17,19 @@ public class SaveStateManager : MonoBehaviour
         {
             TriggerSave();
         }
+        if(Keyboard.current[Key.F3].wasPressedThisFrame)
+        {
+            TriggerLoad();
+        }
     }
 
     public void TriggerSave()
     {
         onSaveTriggered.Invoke(saveFileName);
+    }
+
+    public void TriggerLoad()
+    {
+        onLoadTriggered.Invoke(saveFileName);
     }
 }

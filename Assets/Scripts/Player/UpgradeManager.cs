@@ -184,7 +184,7 @@ public class UpgradeManager : MonoBehaviour
                     availableUpgrades = DeserializeAvailableUpgrades(data);
                     break;
                 case "Store":
-                    availableUpgrades = DeserializeShopUpgrades(data);
+                    currentShopUpgrades = DeserializeShopUpgrades(data);
                     break;
                 default:
                     Debug.LogError("Unrecognized upgrade set?!?!");

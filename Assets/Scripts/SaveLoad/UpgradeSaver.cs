@@ -15,7 +15,9 @@ public class UpgradeSaver : MonoBehaviour
 
     private void Start()
     {
-        FindObjectOfType<SaveStateManager>().onSaveTriggered.AddListener(SaveData);
+        SaveStateManager saveMan = FindObjectOfType<SaveStateManager>();
+        saveMan.onSaveTriggered.AddListener(SaveData);
+        saveMan.onLoadTriggered.AddListener(LoadData);
     }
 
     public void SaveData(string savefile)
@@ -33,5 +35,24 @@ public class UpgradeSaver : MonoBehaviour
             await writer.WriteAsync(upgradeManager.SerializeUpgrades());
             Debug.Log("Saved to " + path);
         }
+    }
+
+    private void LoadData(string savefile)
+    {
+        string path = Application.persistentDataPath + "/" + savefile;
+        path += ".upgrades";
+
+        try
+        {
+            using (StreamReader reader = new StreamReader(path))
+            {
+                string upgradesString = reader.ReadToEnd();
+                upgradeManager.DeserializeUpgrades(upgradesString);
+            };
+        } catch(System.Exception e)
+        {
+            Debug.LogErrorFormat("Save File {0} could not be read!\n{1}", savefile, e.Message);
+        }
+        
     }
 }
