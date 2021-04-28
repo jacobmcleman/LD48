@@ -191,6 +191,21 @@ public class UpgradeManager : MonoBehaviour
                     break;
             }
         }
+
+        digSpeedIncrease = 0;
+        digRangeIncrease = 0;
+        
+        airRegenIncrease = 0;
+        airCapIncrease = 0;
+
+        swimSpeedIncrease = 0;
+        drillFuelIncrease = 0;
+        sadDigIncrease = 0;
+
+        foreach(Upgrade fromSave in purchasedUpgrades)
+        {
+            ApplyUpgrade(fromSave);
+        }
     }
 
     public List<Upgrade> GetShopUpgrades()
@@ -204,13 +219,9 @@ public class UpgradeManager : MonoBehaviour
         return currentShopUpgrades;
     }
 
-    public void PurchaseUpgrade(int shopIndex)
+    private void ApplyUpgrade(Upgrade u)
     {
-        Upgrade purchased = currentShopUpgrades[shopIndex];
-        currentShopUpgrades.RemoveAt(shopIndex);
-        purchasedUpgrades.Add(purchased);
-
-        UpgradeValues values = upgradeValues[purchased.type];
+        UpgradeValues values = upgradeValues[u.type];
 
         digSpeedIncrease += values.digSpeedIncrease;
         digRangeIncrease += values.digRangeIncrease;
@@ -219,6 +230,15 @@ public class UpgradeManager : MonoBehaviour
         swimSpeedIncrease += values.swimSpeedIncrease;
         drillFuelIncrease += values.drillFuelIncrease;
         sadDigIncrease += values.sadDigIncrease;
+    }
+
+    public void PurchaseUpgrade(int shopIndex)
+    {
+        Upgrade purchased = currentShopUpgrades[shopIndex];
+        currentShopUpgrades.RemoveAt(shopIndex);
+        purchasedUpgrades.Add(purchased);
+
+        ApplyUpgrade(purchased);
 
         int numToGenerate = Random.Range(0, 4) / 2; // 3 / 4 options become 1, 4th is 2
         if(numToGenerate == 0) numToGenerate = 1;
