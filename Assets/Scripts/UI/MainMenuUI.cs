@@ -31,6 +31,7 @@ public class MainMenuUI : MonoBehaviour
         Time.timeScale = 0;
         gameObject.SetActive(true);
         paused = true;
+        FindObjectOfType<SaveStateManager>().TriggerSave();
     }
 
     public void StartResumeGame()

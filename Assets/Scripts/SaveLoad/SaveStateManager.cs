@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
 
 public class SaveStateManager : MonoBehaviour
 {
@@ -16,21 +15,14 @@ public class SaveStateManager : MonoBehaviour
         Everything, Player, WorldState
     }
 
-    private void Update()
+    private void Start()
     {
-        if(Keyboard.current[Key.F2].wasPressedThisFrame)
-        {
-            TriggerSave();
-        }
-        if(Keyboard.current[Key.F3].wasPressedThisFrame)
-        {
-            TriggerLoad();
-        }
+        TriggerLoad();
     }
 
-    public void TriggerSave()
+    public void TriggerSave(SaveType type = SaveType.Everything)
     {
-        onSaveTriggered.Invoke(saveFileName, SaveType.Everything);
+        onSaveTriggered.Invoke(saveFileName, type);
     }
 
     public void TriggerLoad()

@@ -254,10 +254,7 @@ public class UpgradeManager : MonoBehaviour
             numToGenerate--;
         }
 
-        string serialized = SerializeUpgrades();
-        Debug.Log(serialized);
-
-        DeserializeUpgrades(serialized);
+        FindObjectOfType<SaveStateManager>().TriggerSave(SaveStateManager.SaveType.Player);
     }
 
     private void InitUpgradeDictionaries()

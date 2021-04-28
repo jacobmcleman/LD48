@@ -416,6 +416,8 @@ public class PlayerController : MonoBehaviour
         {
             inUpgradeScreen = true;
             upgradeScreen.SetActive(true);
+
+            FindObjectOfType<SaveStateManager>().TriggerSave();
         }
     }
 

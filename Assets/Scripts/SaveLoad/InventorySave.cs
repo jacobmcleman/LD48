@@ -58,50 +58,58 @@ public class InventorySave : MonoBehaviour
         string path = Application.persistentDataPath + "/" + savefile;
         path += ".inventory";
 
+        List<string> lines = new List<string>();
+
+        if(!File.Exists(path)) 
+        {
+            Debug.Log("No inventory save file found, treating as new game");
+            return;
+        }
+
         try
         {
             using (StreamReader reader = new StreamReader(path))
             {
                 while(!reader.EndOfStream)
                 {
-                    string invLine = reader.ReadLine();
-                    
-                    int splitPoint = invLine.IndexOf(':');
-                    string tag = invLine.Substring(0, splitPoint);
-                    string data = invLine.Substring(splitPoint + 1);
-
-                    // Debug.LogFormat("{0} -> {1} | {2}", line, tag, data);
-
-                    switch(tag)
-                    {
-                        case "Gold":
-                            inventory.gold = int.Parse(data);
-                            break;
-                        case "Iron":
-                            inventory.iron = int.Parse(data);
-                            break;
-                        case "Copper":
-                            inventory.copper = int.Parse(data);
-                            break;
-                        case "Fuel":
-                            if(player)
-                            {
-                                player.DrillCurrentFuel = float.Parse(data);
-                            }
-                            break;
-                        default:
-                            Debug.LogError("Unrecognized inventory item?!?!");
-                            break;
-                    }
+                    lines.Add(reader.ReadLine());
                 }
-                
-                inventory.inventoryChanged.Invoke();
-                
             };
         } catch(System.Exception e)
         {
             Debug.LogErrorFormat("Save File {0} could not be read!\n{1}", savefile, e.Message);
         }
+
+        foreach(string invLine in lines)
+        {
+            int splitPoint = invLine.IndexOf(':');
+            string tag = invLine.Substring(0, splitPoint);
+            string data = invLine.Substring(splitPoint + 1);
+
+            switch(tag)
+            {
+            case "Gold":
+                inventory.gold = int.Parse(data);
+                break;
+            case "Iron":
+                inventory.iron = int.Parse(data);
+                break;
+            case "Copper":
+                inventory.copper = int.Parse(data);
+                break;
+            case "Fuel":
+                if(player)
+                {
+                    player.DrillCurrentFuel = float.Parse(data);
+                }
+                break;
+            default:
+                Debug.LogError("Unrecognized inventory item?!?!");
+                break;
+        }
+        }
+                    
         
+        inventory.inventoryChanged.Invoke();
     }
 }

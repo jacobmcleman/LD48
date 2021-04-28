@@ -45,6 +45,12 @@ public class UpgradeSaver : MonoBehaviour
         string path = Application.persistentDataPath + "/" + savefile;
         path += ".upgrades";
 
+        if(!File.Exists(path)) 
+        {
+            Debug.Log("No upgrade save file found, treating as new game");
+            return;
+        }
+
         try
         {
             using (StreamReader reader = new StreamReader(path))
