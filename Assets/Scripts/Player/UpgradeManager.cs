@@ -119,26 +119,78 @@ public class UpgradeManager : MonoBehaviour
         return JsonUtility.ToJson(u);
     }
 
-    public string SerializePurchasedUpgrades()
+    private string SerializePurchasedUpgrades()
     {
         return JsonHelper.ToJson(purchasedUpgrades.ToArray(), false);
     }
 
-    public string SerializeAvailableUpgrades()
+    private string SerializeAvailableUpgrades()
     {
         return JsonHelper.ToJson(availableUpgrades.ToArray(), false);
     }
 
-    public List<Upgrade> DeserializePurchasedUpgrades(string purchasedUpgrades)
+    private string SerializeStoreUpgrades()
+    {
+        return JsonHelper.ToJson(currentShopUpgrades.ToArray(), false);
+    }
+
+    private List<Upgrade> DeserializePurchasedUpgrades(string purchasedUpgrades)
     {
         Upgrade[] purchased = JsonHelper.FromJson<Upgrade>(purchasedUpgrades);
         return new List<Upgrade>(purchased);
     }
 
-    public List<Upgrade> DeserializeAvailableUpgrades(string availableUpgrades)
+    private List<Upgrade> DeserializeAvailableUpgrades(string availableUpgrades)
     {
         Upgrade[] available = JsonHelper.FromJson<Upgrade>(availableUpgrades);
         return new List<Upgrade>(available);
+    }
+
+    private List<Upgrade> DeserializeShopUpgrades(string shopUpgrades)
+    {
+        Upgrade[] shop = JsonHelper.FromJson<Upgrade>(shopUpgrades);
+        return new List<Upgrade>(shop);
+    }
+
+    public string SerializeUpgrades()
+    {
+        string upgrades = "Purchased: ";
+        upgrades += SerializePurchasedUpgrades();
+        upgrades += "\nStore: ";
+        upgrades += SerializeStoreUpgrades(); 
+        upgrades += "\nAvailable: ";
+        upgrades += SerializeAvailableUpgrades(); 
+        return upgrades;
+    }
+
+    public void DeserializeUpgrades(string serialized)
+    {
+        string[] lines = serialized.Split('\n');
+
+        foreach(string line in lines)
+        {
+            int splitPoint = line.IndexOf(':');
+            string tag = line.Substring(0, splitPoint);
+            string data = line.Substring(splitPoint + 1);
+
+            // Debug.LogFormat("{0} -> {1} | {2}", line, tag, data);
+
+            switch(tag)
+            {
+                case "Purchased":
+                    purchasedUpgrades = DeserializePurchasedUpgrades(data);
+                    break;
+                case "Available":
+                    availableUpgrades = DeserializeAvailableUpgrades(data);
+                    break;
+                case "Store":
+                    availableUpgrades = DeserializeShopUpgrades(data);
+                    break;
+                default:
+                    Debug.LogError("Unrecognized upgrade set?!?!");
+                    break;
+            }
+        }
     }
 
     public List<Upgrade> GetShopUpgrades()
@@ -181,6 +233,11 @@ public class UpgradeManager : MonoBehaviour
             availableUpgrades.Add(nextTier);
             numToGenerate--;
         }
+
+        string serialized = SerializeUpgrades();
+        Debug.Log(serialized);
+
+        DeserializeUpgrades(serialized);
     }
 
     private void InitUpgradeDictionaries()
