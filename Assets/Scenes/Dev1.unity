@@ -146,7 +146,7 @@ MonoBehaviour:
   onLoadTriggered:
     m_PersistentCalls:
       m_Calls: []
-  saveFileName: test_save
+  saveFileName: test_save_2
 --- !u!20 &1169522881 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 8533016896382558981, guid: 0470bcec1956a484b83a86370f89957c, type: 3}
@@ -231,18 +231,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 224586246361640248, guid: 9b2d9dce9c202444faa15a9f889a3968, type: 3}
   m_PrefabInstance: {fileID: 224586245847272848}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1656926950
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1656926949}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60d356d7230914a448e6d253a92682a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1656926960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,6 +241,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 991afb0aa2cc923459a90b70850121d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1656926961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1656926949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60d356d7230914a448e6d253a92682a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1727570093 stripped
@@ -275,15 +275,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1727570096, guid: 9b2d9dce9c202444faa15a9f889a3968, type: 3}
       propertyPath: gold
-      value: 30
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1727570096, guid: 9b2d9dce9c202444faa15a9f889a3968, type: 3}
       propertyPath: iron
-      value: 30
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1727570096, guid: 9b2d9dce9c202444faa15a9f889a3968, type: 3}
       propertyPath: copper
-      value: 30
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224586246361640248, guid: 9b2d9dce9c202444faa15a9f889a3968, type: 3}
       propertyPath: m_Name
