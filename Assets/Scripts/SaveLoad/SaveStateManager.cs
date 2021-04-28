@@ -6,10 +6,15 @@ using UnityEngine.InputSystem;
 
 public class SaveStateManager : MonoBehaviour
 {
-    public UnityEvent<string> onSaveTriggered;
+    public UnityEvent<string, SaveType> onSaveTriggered;
     public UnityEvent<string> onLoadTriggered;
 
     public string saveFileName = "test_save";
+
+    public enum SaveType
+    {
+        Everything, Player, WorldState
+    }
 
     private void Update()
     {
@@ -25,7 +30,7 @@ public class SaveStateManager : MonoBehaviour
 
     public void TriggerSave()
     {
-        onSaveTriggered.Invoke(saveFileName);
+        onSaveTriggered.Invoke(saveFileName, SaveType.Everything);
     }
 
     public void TriggerLoad()

@@ -20,10 +20,13 @@ public class UpgradeSaver : MonoBehaviour
         saveMan.onLoadTriggered.AddListener(LoadData);
     }
 
-    public void SaveData(string savefile)
+    public void SaveData(string savefile, SaveStateManager.SaveType type)
     {
-        Debug.Log("Save Triggered");
-        SaveDataAsync(savefile);
+        if(type != SaveStateManager.SaveType.WorldState)
+        {
+            Debug.Log("Upgrades Save Triggered");
+            SaveDataAsync(savefile);
+        }
     }
 
     private async void SaveDataAsync(string savefile)
