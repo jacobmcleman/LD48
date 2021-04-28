@@ -25,12 +25,12 @@ public class UpgradeButton : MonoBehaviour
         index = newIndex;
         theBoss = newBoss;
 
-        upgradeTitleText.text = upgrade.name;
-        upgradeDescriptionText.text = upgrade.description;
+        upgradeTitleText.text = UpgradeManager.Instance.upgradeDisplayNames[newUpgrade.type];
+        upgradeDescriptionText.text = UpgradeManager.Instance.upgradeDescriptions[newUpgrade.type];
         copperPriceText.text = upgrade.copperCost.ToString();
         ironPriceText.text = upgrade.ironCost.ToString();
         goldPriceText.text = upgrade.goldCost.ToString();
-        upgradeIcon.sprite = upgrade.image;
+        upgradeIcon.sprite =  UpgradeManager.Instance.upgradeIcons[newUpgrade.type];
     }   
 
     public void TryPurchase()

@@ -85,7 +85,7 @@ public class Inventory : MonoBehaviour
         copper -= copperCost;
         inventoryChanged.Invoke();
 
-        if(goldCost > 1) feedbackAudio.PlayOneShot(craftingSounds[Random.Range(0, craftingSounds.Length)]);
+        if(goldCost > 1 || ironCost > 0 || copperCost > 0) feedbackAudio.PlayOneShot(craftingSounds[Random.Range(0, craftingSounds.Length)]);
         else feedbackAudio.PlayOneShot(gasFillupSounds[Random.Range(0, gasFillupSounds.Length)]);
 
         return true;
