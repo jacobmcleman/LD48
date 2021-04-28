@@ -168,7 +168,7 @@ public class UpgradeManager : MonoBehaviour
         airJets.swimSpeedIncrease = 0.5f;
         airJets.drillFuelIncrease = 0.0f;
         airJets.sadDigIncrease = 0;
-        availableUpgrades.Add(airJets);
+        // SavailableUpgrades.Add(airJets); DISABLED BECAUSE EVIL BUG
 
         Upgrade airTank = new Upgrade();
         airTank.name = "Air Tank";

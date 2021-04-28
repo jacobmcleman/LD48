@@ -524,7 +524,7 @@ MonoBehaviour:
   damageSoundInterval: 1.5
   lastDamageSoundTime: 0
   isDead: 0
-  deathDepth: -120
+  deathDepth: -220
   idleSprite: {fileID: -6290449581119604418, guid: 84fda799e6fda5648951594189f3f9c2, type: 3}
   moveSprite: {fileID: 8605515787222093305, guid: 84fda799e6fda5648951594189f3f9c2, type: 3}
 --- !u!114 &224586246361640255

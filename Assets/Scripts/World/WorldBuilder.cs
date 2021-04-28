@@ -170,57 +170,60 @@ public class WorldBuilder : MonoBehaviour
         {
             Tile toPlace = y < (height - sandThickness) ? rockTile : sandTile;
 
-            float holeSampleXpos = (x - xBounds) / 12.0f;
-            float holeSampleYpos = (y) / 51.0f  + noiseOffsetY;
-
-            float plasmaSampleXpos = (x) / 32.0f;
-            float plasmaSampleYpos = (y) / 5.0f  + noiseOffsetY;
-            
-            float caveDensity = Helpers.Remap(y, -minDepth, -depthLimit, 0.6f, 0.85f);
-            float holesCave = (Mathf.PerlinNoise(holeSampleXpos, holeSampleYpos) + Mathf.PerlinNoise(plasmaSampleXpos, plasmaSampleYpos) ) / 2.0f;
-            float plasmaCave = Mathf.Sin(Mathf.PerlinNoise(plasmaSampleXpos, plasmaSampleYpos) * Mathf.PerlinNoise(plasmaSampleXpos, plasmaSampleYpos) * Mathf.PI);
-            
-            float caveDetail = Mathf.PerlinNoise(x / 3f, y / 3f);
-
-            float plasmaWeight = 2;
-            float holesWeight = 3;
-            float noiseWeight = 1;
-            
-            float cave = ((holesCave * holesWeight) + (plasmaCave * plasmaWeight) + (caveDetail * noiseWeight)) / (plasmaWeight + holesWeight + noiseWeight);
-
-            if(cave > caveDensity)
+            if(y != -depthLimit)
             {
-                toPlace = null;
-            }
+                float holeSampleXpos = (x - xBounds) / 12.0f;
+                float holeSampleYpos = (y) / 51.0f  + noiseOffsetY;
 
-            if(toPlace == rockTile)
-            {
-                float goldOreSampleXpos = (x - xBounds) / 70.0f;
-                float goldOreSampleYpos = (y) / 20.0f;
-                float goldOre = Mathf.PerlinNoise(goldOreSampleXpos, goldOreSampleYpos);
-                float goldDensity = Helpers.Remap(y, -minDepth, -depthLimit, 0.8f, 0.4f);
+                float plasmaSampleXpos = (x) / 32.0f;
+                float plasmaSampleYpos = (y) / 5.0f  + noiseOffsetY;
+                
+                float caveDensity = Helpers.Remap(y, -minDepth, -depthLimit, 0.6f, 0.85f);
+                float holesCave = (Mathf.PerlinNoise(holeSampleXpos, holeSampleYpos) + Mathf.PerlinNoise(plasmaSampleXpos, plasmaSampleYpos) ) / 2.0f;
+                float plasmaCave = Mathf.Sin(Mathf.PerlinNoise(plasmaSampleXpos, plasmaSampleYpos) * Mathf.PerlinNoise(plasmaSampleXpos, plasmaSampleYpos) * Mathf.PI);
+                
+                float caveDetail = Mathf.PerlinNoise(x / 3f, y / 3f);
 
-                float ironOreSampleXpos = (x - xBounds) / 40.0f;
-                float ironOreSampleYpos = (y) / 15.0f;
-                float ironOre = Mathf.PerlinNoise(ironOreSampleXpos, ironOreSampleYpos);
-                float ironDensity = Helpers.Remap(y, -minDepth, -depthLimit, 0.75f, 0.6f);
+                float plasmaWeight = 2;
+                float holesWeight = 3;
+                float noiseWeight = 1;
+                
+                float cave = ((holesCave * holesWeight) + (plasmaCave * plasmaWeight) + (caveDetail * noiseWeight)) / (plasmaWeight + holesWeight + noiseWeight);
 
-                float copperOreSampleXpos = (x - xBounds) / 55.0f;
-                float copperOreSampleYpos = (y) / 17.0f;
-                float copperOre = Mathf.PerlinNoise(copperOreSampleXpos, copperOreSampleYpos);
-                float copperDensity = Helpers.Remap(y, -minDepth, -depthLimit, 0.7f, 0.5f);
-
-                if(goldOre > goldDensity && Random.Range(goldDensity, 1f) < goldOre)
+                if(cave > caveDensity)
                 {
-                    toPlace = goldTile;
+                    toPlace = null;
                 }
-                else if(copperOre > copperDensity && Random.Range(copperDensity, 1f) < copperOre)
+
+                if(toPlace == rockTile)
                 {
-                    toPlace = copperTile;
-                }
-                else if(ironOre > ironDensity && Random.Range(ironDensity, 1f) < ironOre)
-                {
-                    toPlace = ironTile;
+                    float goldOreSampleXpos = (x - xBounds) / 70.0f;
+                    float goldOreSampleYpos = (y) / 20.0f;
+                    float goldOre = Mathf.PerlinNoise(goldOreSampleXpos, goldOreSampleYpos);
+                    float goldDensity = Helpers.Remap(y, -minDepth, -depthLimit, 0.8f, 0.4f);
+
+                    float ironOreSampleXpos = (x - xBounds) / 40.0f;
+                    float ironOreSampleYpos = (y) / 15.0f;
+                    float ironOre = Mathf.PerlinNoise(ironOreSampleXpos, ironOreSampleYpos);
+                    float ironDensity = Helpers.Remap(y, -minDepth, -depthLimit, 0.75f, 0.6f);
+
+                    float copperOreSampleXpos = (x - xBounds) / 55.0f;
+                    float copperOreSampleYpos = (y) / 17.0f;
+                    float copperOre = Mathf.PerlinNoise(copperOreSampleXpos, copperOreSampleYpos);
+                    float copperDensity = Helpers.Remap(y, -minDepth, -depthLimit, 0.7f, 0.5f);
+
+                    if(goldOre > goldDensity && Random.Range(goldDensity, 1f) < goldOre)
+                    {
+                        toPlace = goldTile;
+                    }
+                    else if(copperOre > copperDensity && Random.Range(copperDensity, 1f) < copperOre)
+                    {
+                        toPlace = copperTile;
+                    }
+                    else if(ironOre > ironDensity && Random.Range(ironDensity, 1f) < ironOre)
+                    {
+                        toPlace = ironTile;
+                    }
                 }
             }
 
@@ -275,8 +278,6 @@ public class WorldBuilder : MonoBehaviour
             return drop;
         }
 
-        
-
         return null;
     }
 
@@ -285,6 +286,8 @@ public class WorldBuilder : MonoBehaviour
     {
         Vector3Int tilePos = terrainTiles.WorldToCell(worldPos);
         TileBase present = terrainTiles.GetTile(tilePos);
+
+        if(worldPos.y <= -depthLimit) return TileType.Air;
 
         if(present != null)
         {
