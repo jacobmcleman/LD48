@@ -64,6 +64,7 @@ public class UpgradeManager : MonoBehaviour
         public int goldCost;
     }
 
+    [System.Serializable]
     public struct UpgradeValues
     {
         public float digSpeedIncrease;
@@ -111,6 +112,33 @@ public class UpgradeManager : MonoBehaviour
         InitUpgradeDictionaries();
 
         PopulateStoreWithInitialUpgrades();
+    }
+
+    private string SerializeUpgrade(Upgrade u)
+    {
+        return JsonUtility.ToJson(u);
+    }
+
+    public string SerializePurchasedUpgrades()
+    {
+        return JsonHelper.ToJson(purchasedUpgrades.ToArray(), false);
+    }
+
+    public string SerializeAvailableUpgrades()
+    {
+        return JsonHelper.ToJson(availableUpgrades.ToArray(), false);
+    }
+
+    public List<Upgrade> DeserializePurchasedUpgrades(string purchasedUpgrades)
+    {
+        Upgrade[] purchased = JsonHelper.FromJson<Upgrade>(purchasedUpgrades);
+        return new List<Upgrade>(purchased);
+    }
+
+    public List<Upgrade> DeserializeAvailableUpgrades(string availableUpgrades)
+    {
+        Upgrade[] available = JsonHelper.FromJson<Upgrade>(availableUpgrades);
+        return new List<Upgrade>(available);
     }
 
     public List<Upgrade> GetShopUpgrades()
