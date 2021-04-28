@@ -72,6 +72,17 @@ public class PlayerController : MonoBehaviour
         get { return drillBaseFuel + UpgradeManager.DrillFuelIncrease; }
     }
 
+    public float DrillCurrentFuel
+    {
+        get { return drillCurFuel; }
+        set 
+        { 
+            drillCurFuel = value; 
+            fuelMeter.maxVal = DrillMaxFuel;
+            fuelMeter.Value = drillCurFuel; 
+        }
+    }
+
     public float airAmount = 10;
 
     public float AirCapacity 
@@ -452,8 +463,6 @@ public class PlayerController : MonoBehaviour
 
     public void Refuel()
     {
-        drillCurFuel = DrillMaxFuel;
-        fuelMeter.maxVal = DrillMaxFuel;
-        fuelMeter.Value = drillCurFuel;
+        DrillCurrentFuel = DrillMaxFuel;
     }
 }

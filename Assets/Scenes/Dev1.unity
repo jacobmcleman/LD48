@@ -143,6 +143,10 @@ MonoBehaviour:
   onSaveTriggered:
     m_PersistentCalls:
       m_Calls: []
+  onLoadTriggered:
+    m_PersistentCalls:
+      m_Calls: []
+  saveFileName: test_save
 --- !u!20 &1169522881 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 8533016896382558981, guid: 0470bcec1956a484b83a86370f89957c, type: 3}
@@ -227,6 +231,18 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 224586246361640248, guid: 9b2d9dce9c202444faa15a9f889a3968, type: 3}
   m_PrefabInstance: {fileID: 224586245847272848}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1656926950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1656926949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60d356d7230914a448e6d253a92682a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1656926960
 MonoBehaviour:
   m_ObjectHideFlags: 0
