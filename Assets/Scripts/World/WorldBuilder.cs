@@ -6,10 +6,12 @@ public class WorldBuilder : MonoBehaviour
 {
     public enum TileType
     {
+        Air,
         Sand,
         Stone,
-        Ore, 
-        Air
+        GoldOre, 
+        CopperOre, 
+        IronOre
     }
 
     private Tilemap terrainTiles;
@@ -45,6 +47,16 @@ public class WorldBuilder : MonoBehaviour
     private int minExtent;
     private int maxExtent;
 
+    public int MinBound
+    {
+        get => minExtent;
+    }
+
+    public int MaxBound
+    {
+        get => maxExtent;
+    }
+
     private WaterFlow flower;
 
     public float passiveNuggetSpawnInterval = 1f;
@@ -59,19 +71,7 @@ public class WorldBuilder : MonoBehaviour
         terrainTiles = transform.Find("Terrain").GetComponent<Tilemap>();
         flower = GetComponent<WaterFlow>();
 
-        if(seed == 0) seed = Random.Range(int.MinValue, int.MaxValue);
-        Random.InitState(seed);
-
-        noiseOffsetX = Random.Range(int.MinValue, int.MaxValue);
-        noiseOffsetY = Random.Range(int.MinValue, int.MaxValue);
-
         
-        minExtent = -30;
-        maxExtent = 30;
-        for(int x = minExtent; x < maxExtent; ++x)
-        {
-            GenerateSlice(x);
-        }
 
         if(goldNuggetPrefab == null)
         {
@@ -81,6 +81,29 @@ public class WorldBuilder : MonoBehaviour
         lastNuggetSpawnTime = Time.time;
 
         passiveNuggets = new LinkedList<GameObject>();
+    }
+    
+    public void BuildWorld()
+    {
+        if(seed == 0) 
+        {
+            seed = Random.Range(int.MinValue, int.MaxValue);
+            Random.InitState(seed);
+
+            noiseOffsetX = Random.Range(int.MinValue, int.MaxValue);
+            noiseOffsetY = Random.Range(int.MinValue, int.MaxValue);
+
+            minExtent = -30;
+            maxExtent = 30;
+            for(int x = minExtent; x < maxExtent; ++x)
+            {
+                GenerateSlice(x);
+            }
+        }
+        else
+        {
+            Random.InitState(seed);
+        }
     }
     
     private Vector3Int PickNuggetSpawnSpot()
@@ -237,31 +260,54 @@ public class WorldBuilder : MonoBehaviour
         else if(x < minExtent) minExtent = x;
     }
 
-    private GameObject SpawnDrops(TileBase brokenType, Vector3Int tilePos)
+    private string WriteSlice(int x)
     {
-        Tile brokenTile = (Tile)brokenType;
+        string slice = "";
+        for(int y = -depthLimit; y <= 0; ++y)
+        {
+            slice += GetTile(new Vector3Int(x, y, 0)) + ", ";
+        }
+        return slice;
+    }
 
+    public string GetSerializedTerrainForBlock()
+    {
+        string worldString = seed.ToString();
+        for(int x = minExtent; x < maxExtent; ++x)
+        {
+            worldString += "\n";
+            worldString += WriteSlice(x);
+        }
+        return worldString;
+    }
+
+    public TileBase[] GetTilesRaw()
+    {
+        return terrainTiles.GetTilesBlock(new BoundsInt(minExtent, -depthLimit, 0, maxExtent - minExtent, depthLimit, 1));
+    }
+
+    private GameObject SpawnDrops(TileType brokenType, Vector3Int tilePos)
+    {
         GameObject toSpawn = null;
         GameObject fx = null;
 
-        if(brokenTile == goldTile)
+        switch(brokenType)
         {
-            toSpawn = goldNuggetPrefab;
-            fx = stoneBreakEffectPrefab;
-        }
-        else if(brokenTile == ironTile)
-        {
-            fx = stoneBreakEffectPrefab;
-            toSpawn = ironNuggetPrefab;
-        }
-        else if(brokenTile == copperTile)
-        {
-            fx = stoneBreakEffectPrefab;
-            toSpawn = copperNuggetPrefab;
-        }
-        else if(brokenTile == rockTile)
-        {
-            fx = stoneBreakEffectPrefab;
+            case TileType.GoldOre:
+                toSpawn = goldNuggetPrefab;
+                fx = stoneBreakEffectPrefab;
+                break;
+            case TileType.IronOre:
+                fx = stoneBreakEffectPrefab;
+                toSpawn = ironNuggetPrefab;
+                break;
+            case TileType.CopperOre:
+                fx = stoneBreakEffectPrefab;
+                toSpawn = copperNuggetPrefab;
+                break;
+            case TileType.Stone:
+                fx = stoneBreakEffectPrefab;
+                break;
         }
 
         Vector3 position = terrainTiles.CellToWorld(tilePos) + new Vector3(0.5f, 0.5f, 0);
@@ -285,11 +331,12 @@ public class WorldBuilder : MonoBehaviour
     public TileType Dig(Vector3 worldPos)
     {
         Vector3Int tilePos = terrainTiles.WorldToCell(worldPos);
-        TileBase present = terrainTiles.GetTile(tilePos);
+        
+        TileType present = GetTile(tilePos);
 
         if(worldPos.y <= -depthLimit) return TileType.Air;
 
-        if(present != null)
+        if(present != TileType.Air)
         {
             terrainTiles.SetTile(tilePos, null);
             flower.RegisterTerrainChange(tilePos);
@@ -297,10 +344,19 @@ public class WorldBuilder : MonoBehaviour
             SpawnDrops(present, tilePos);
         }
 
+        return present;
+    }
+
+    public TileType GetTile(Vector3Int tilePos)
+    {
+        TileBase present = terrainTiles.GetTile(tilePos);
         if(present == null) return TileType.Air;
         if(present == sandTile) return TileType.Sand;
         if(present == rockTile) return TileType.Stone;
-        else return TileType.Ore;
+        if(present == goldTile) return TileType.GoldOre;
+        if(present == ironTile) return TileType.IronOre;
+        if(present == copperTile) return TileType.CopperOre;
+        else return TileType.Air;
     }
 
     public Vector3 SnapToTile(Vector3 worldPos)
