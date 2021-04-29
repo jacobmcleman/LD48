@@ -41,28 +41,64 @@ public class WorldSaver : MonoBehaviour
             return;
         }
 
+        string seedStr = "";
+        string boundsStr = "";
+        string encodedWorldStr = "";
+
         try
         {
-            string seedStr;
-            string boundsStr;
-            string encodedWorldStr;
+            
             using (StreamReader reader = new StreamReader(path))
             {
                 seedStr = reader.ReadLine();
                 boundsStr = reader.ReadLine();
                 encodedWorldStr = reader.ReadLine();
             };
-
-            world.seed = int.Parse(seedStr);
-            int minBound = int.Parse(boundsStr.Substring(0, boundsStr.IndexOf(",")));
-            int maxBound = int.Parse(boundsStr.Substring(boundsStr.IndexOf(",") + 1));
-
-            
-
         } catch(System.Exception e)
         {
             Debug.LogErrorFormat("Save File {0} could not be read!\n{1}", savefile, e.Message);
+            world.BuildWorld();
+            return;
         }
+
+        world.seed = int.Parse(seedStr);
+        int minBound = int.Parse(boundsStr.Substring(0, boundsStr.IndexOf(",")));
+        int maxBound = int.Parse(boundsStr.Substring(boundsStr.IndexOf(",") + 1));
+        int worldWidth = maxBound - minBound;
+
+        string[] runLengths = encodedWorldStr.Split(',');
+        TileBase[] tiles = new TileBase[world.depthLimit * worldWidth];
+        int tileIndex = 0;
+
+        //Debug.LogFormat("Loading tiles length {0}", tiles.Length);
+
+        foreach(string str in runLengths)
+        {
+            Debug.Log(str);
+            if(str.Length < 3 || str[0] == '-' || str[str.Length-1] == '-') 
+            {
+                Debug.LogFormat("WEIRD BOI AT {0} - {1}", tileIndex, str);
+                continue;
+            }
+
+
+            int type = int.Parse(str.Substring(0, str.IndexOf("-")));
+            //Debug.LogFormat("Parsed type: {0}", type);
+            int count = int.Parse(str.Substring(str.IndexOf("-") + 1));
+            //Debug.LogFormat("Parsed count: {0}", count);
+
+
+            TileBase tile = destringify(type);
+            for(int i = 0; i < count; ++i)
+            {
+                tiles[tileIndex++] = tile;
+            }
+        }
+
+        if(tileIndex < tiles.Length) Debug.LogWarning("Didn't read enough tile data!");
+
+        world.SetTilesRaw(tiles, minBound, maxBound);
+        world.BuildWorld();
     }
 
     private string stringify(TileBase tile)
@@ -76,6 +112,16 @@ public class WorldSaver : MonoBehaviour
         else return "0";
     }
 
+    private TileBase destringify(int tile)
+    {
+        if(tile == 1) return world.sandTile;
+        else if(tile == 2) return world.rockTile;
+        else if(tile == 3) return world.goldTile;
+        else if(tile == 4) return world.ironTile;
+        else if(tile ==  5) return world.copperTile;
+        else return null;
+    }
+
     private async void SaveDataAsync(string savefile)
     {
         string path = Application.persistentDataPath + "/" + savefile;
@@ -86,14 +132,19 @@ public class WorldSaver : MonoBehaviour
         serialized += "\n" + world.MinBound + "," + world.MaxBound;
         TileBase[] tiles = world.GetTilesRaw();
 
+        //Debug.LogFormat("Written tiles length {0}", tiles.Length);
+
         System.Action serializeTilesAction = () =>
         {
             serialized += "\n";
 
             int runLengthCount = 1;
+            int totalRLE = 0;
             string compressed = "";
+            string uncompressed = "";
             for(int i = 0; i < tiles.Length; ++i)
             {
+                uncompressed += stringify(tiles[i]);
                 if(i < tiles.Length - 1 && tiles[i] == tiles[i+1])
                 {
                     runLengthCount++;
@@ -102,10 +153,14 @@ public class WorldSaver : MonoBehaviour
                 {
                     compressed += stringify(tiles[i]);
                     compressed += "-" + runLengthCount + ",";
+                    totalRLE += runLengthCount;
                     runLengthCount = 1;
                 }
             }
+
+            //Debug.LogFormat("Total RLE: {0}", totalRLE);
             serialized += compressed;
+            serialized += "\nDEBUG UNCOMPRESSED: " + uncompressed;
         };
 
 

@@ -103,6 +103,10 @@ public class WorldBuilder : MonoBehaviour
         else
         {
             Random.InitState(seed);
+            for(int x = MinBound; x < MaxBound; ++x)
+            {
+                flower.AddSlice(x);
+            }
         }
     }
     
@@ -284,6 +288,13 @@ public class WorldBuilder : MonoBehaviour
     public TileBase[] GetTilesRaw()
     {
         return terrainTiles.GetTilesBlock(new BoundsInt(minExtent, -depthLimit, 0, maxExtent - minExtent, depthLimit, 1));
+    }
+
+    public void SetTilesRaw(TileBase[] tiles, int newMin, int newMax)
+    {
+        minExtent = newMin;
+        maxExtent = newMax;
+        terrainTiles.SetTilesBlock(new BoundsInt(minExtent, -depthLimit, 0, maxExtent - minExtent, depthLimit, 1), tiles);
     }
 
     private GameObject SpawnDrops(TileType brokenType, Vector3Int tilePos)
