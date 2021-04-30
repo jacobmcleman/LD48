@@ -25,9 +25,13 @@ public class Inventory : MonoBehaviour
 
     public UnityEvent inventoryChanged;
 
+    private Transform looseItems;
+
     private void Start()
     {
         playerController = FindObjectOfType<PlayerController>();
+
+        looseItems = GameObject.Find("LooseItems").transform;
 
         inventoryChanged.Invoke();
     }
@@ -96,6 +100,7 @@ public class Inventory : MonoBehaviour
         while(gold > 0)
         {
             GameObject nugget = Instantiate(goldNuggetPrefab, transform.position, Quaternion.identity);
+            nugget.transform.parent = looseItems;
             Pickup nuggetPickup = nugget.GetComponent<Pickup>();
             if(gold - nuggetPickup.amount >= 0) 
             {
@@ -111,6 +116,7 @@ public class Inventory : MonoBehaviour
         while(copper > 0)
         {
             GameObject nugget = Instantiate(copperNuggetPrefab, transform.position, Quaternion.identity);
+            nugget.transform.parent = looseItems;
             Pickup nuggetPickup = nugget.GetComponent<Pickup>();
             if(copper - nuggetPickup.amount >= 0) 
             {
@@ -126,6 +132,7 @@ public class Inventory : MonoBehaviour
         while(iron > 0)
         {
             GameObject nugget = Instantiate(ironNuggetPrefab, transform.position, Quaternion.identity);
+            nugget.transform.parent = looseItems;
             Pickup nuggetPickup = nugget.GetComponent<Pickup>();
             if(iron - nuggetPickup.amount >= 0) 
             {

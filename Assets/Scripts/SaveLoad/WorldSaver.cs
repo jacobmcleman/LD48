@@ -1,5 +1,5 @@
 using System.IO;
-using System.Threading;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine.Tilemaps;
 using UnityEngine;
@@ -9,6 +9,8 @@ public class WorldSaver : MonoBehaviour
 {
     private WorldBuilder world;
 
+    private Transform looseItems;
+
     private void Awake()
     {
         world = GetComponent<WorldBuilder>();
@@ -16,6 +18,7 @@ public class WorldSaver : MonoBehaviour
 
     private void Start()
     {
+        looseItems = GameObject.Find("LooseItems").transform;
         SaveStateManager saveMan = FindObjectOfType<SaveStateManager>();
         saveMan.onSaveTriggered.AddListener(SaveData);
         saveMan.onLoadTriggered.AddListener(LoadData);
@@ -47,7 +50,6 @@ public class WorldSaver : MonoBehaviour
 
         try
         {
-            
             using (StreamReader reader = new StreamReader(path))
             {
                 seedStr = reader.ReadLine();
@@ -74,19 +76,14 @@ public class WorldSaver : MonoBehaviour
 
         foreach(string str in runLengths)
         {
-            Debug.Log(str);
             if(str.Length < 3 || str[0] == '-' || str[str.Length-1] == '-') 
             {
-                Debug.LogFormat("WEIRD BOI AT {0} - {1}", tileIndex, str);
+                Debug.LogWarningFormat("WEIRD BOI AT {0} - {1}", tileIndex, str);
                 continue;
             }
 
-
             int type = int.Parse(str.Substring(0, str.IndexOf("-")));
-            //Debug.LogFormat("Parsed type: {0}", type);
             int count = int.Parse(str.Substring(str.IndexOf("-") + 1));
-            //Debug.LogFormat("Parsed count: {0}", count);
-
 
             TileBase tile = destringify(type);
             for(int i = 0; i < count; ++i)
@@ -131,12 +128,22 @@ public class WorldSaver : MonoBehaviour
         serialized = world.seed.ToString();
         serialized += "\n" + world.MinBound + "," + world.MaxBound;
         TileBase[] tiles = world.GetTilesRaw();
+        
+        List<Pickup.ItemData> items = new List<Pickup.ItemData>();
 
-        //Debug.LogFormat("Written tiles length {0}", tiles.Length);
+        foreach(Pickup pickup in looseItems.GetComponentsInChildren<Pickup>())
+        {
+            items.Add(pickup.GetData());
+        }
+
+        Debug.LogFormat("{0} items to serialize", items.Count);
+
+        string worldSerialized = "";
+        string itemsSerialized = "";
 
         System.Action serializeTilesAction = () =>
         {
-            serialized += "\n";
+            worldSerialized += "\n";
 
             int runLengthCount = 1;
             int totalRLE = 0;
@@ -158,17 +165,26 @@ public class WorldSaver : MonoBehaviour
                 }
             }
 
-            //Debug.LogFormat("Total RLE: {0}", totalRLE);
-            serialized += compressed;
-            serialized += "\nDEBUG UNCOMPRESSED: " + uncompressed;
+            worldSerialized += compressed;
         };
 
+        
+        System.Action serializeItemsAction = () =>
+        {
+            itemsSerialized += "\n";
+            itemsSerialized += JsonHelper.ToJson<Pickup.ItemData>(items.ToArray());
+        };
 
         using (StreamWriter writer = File.CreateText(path))
         {
-            Task serializeTask = new Task(serializeTilesAction);
-            serializeTask.Start();
-            await serializeTask;
+            Task serializeWorldTask = new Task(serializeTilesAction);
+            Task serializeItemsTask = new Task(serializeItemsAction);
+            serializeWorldTask.Start();
+            serializeItemsTask.Start();
+            await serializeWorldTask;
+            serialized += worldSerialized;
+            await serializeItemsTask;
+            serialized += itemsSerialized;
             await writer.WriteAsync(serialized);
             Debug.Log("Saved to " + path);
         }

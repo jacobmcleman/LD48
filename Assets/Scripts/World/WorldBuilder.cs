@@ -66,12 +66,13 @@ public class WorldBuilder : MonoBehaviour
     public int maxSpawnDistance = 25;
     private LinkedList<GameObject> passiveNuggets;
 
+    private Transform passiveSpawns;
+    private Transform looseItems;
+
     private void Start()
     {
         terrainTiles = transform.Find("Terrain").GetComponent<Tilemap>();
         flower = GetComponent<WaterFlow>();
-
-        
 
         if(goldNuggetPrefab == null)
         {
@@ -81,6 +82,9 @@ public class WorldBuilder : MonoBehaviour
         lastNuggetSpawnTime = Time.time;
 
         passiveNuggets = new LinkedList<GameObject>();
+
+        passiveSpawns = transform.Find("Passives");
+        looseItems = GameObject.Find("LooseItems").transform;
     }
     
     public void BuildWorld()
@@ -160,6 +164,7 @@ public class WorldBuilder : MonoBehaviour
                 GameObject toSpawn = randomDebris[Random.Range(0, randomDebris.Length)];
                 GameObject drop = Instantiate(toSpawn, terrainTiles.CellToWorld(spawnPos), Quaternion.identity);
                 drop.GetComponent<Pickup>().OnPickup.AddListener(OnPassiveNuggetPickedUp);
+                drop.transform.parent = passiveSpawns;
                 //drop.GetComponent<WaterInteraction>().waterGravityScale = 0.05f;
                 passiveNuggets.AddLast(drop);
             }
@@ -327,6 +332,7 @@ public class WorldBuilder : MonoBehaviour
         {
             position.z = 1;
             GameObject drop = Instantiate(fx, position, Quaternion.identity);
+            drop.transform.parent = looseItems;
         }
 
         if(toSpawn != null)
