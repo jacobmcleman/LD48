@@ -289,7 +289,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1727570096, guid: 9b2d9dce9c202444faa15a9f889a3968, type: 3}
       propertyPath: copper
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 224586246361640248, guid: 9b2d9dce9c202444faa15a9f889a3968, type: 3}
       propertyPath: m_Name

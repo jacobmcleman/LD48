@@ -27,6 +27,10 @@ public class Pickup : MonoBehaviour
         public int amount;
     }
 
+    public bool mergeAllowed = true;
+
+    private float maxSize = 4;
+
     private void Awake()
     {
         if(gameObject.tag != "Pickup")
@@ -42,5 +46,29 @@ public class Pickup : MonoBehaviour
         data.pickupType = pickupType;
         data.amount = amount;
         return data;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Pickup otherPickup = other.GetComponent<Pickup>();
+        if(mergeAllowed && otherPickup && otherPickup.pickupType == pickupType && otherPickup.mergeAllowed)
+        {
+            otherPickup.mergeAllowed = false;
+            amount += otherPickup.amount;
+
+            float curVolume = transform.localScale.x * transform.localScale.x;
+            float density = curVolume / amount;
+            float desiredVolume = curVolume + (otherPickup.amount * density);
+            float newSize = Mathf.Sqrt(desiredVolume);
+            if(newSize >= maxSize) mergeAllowed = false;
+
+            newSize = Mathf.Clamp(Mathf.Sqrt(desiredVolume), 0, maxSize);
+
+            transform.localScale = new Vector3(newSize, newSize, newSize);
+            
+            
+            otherPickup.OnPickup.Invoke(other.gameObject);
+            Destroy(other.gameObject);
+        }
     }
 }
