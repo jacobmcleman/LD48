@@ -492,12 +492,12 @@ MonoBehaviour:
   waterGravityScale: 0.15
   waterDrag: 0.5
   airMoveSpeed: 1.4
-  waterMoveSpeed: 0.8
+  waterMoveSpeed: 0.7
   inUpgradeScreen: 0
   digSpeed: 0.75
   slowDig: 0.25
-  digRadius: 3
-  drillBaseFuel: 20
+  digRadius: 2
+  drillBaseFuel: 15
   airAmount: 15
   airRecoveryRate: 3
   airDecayRate: 1

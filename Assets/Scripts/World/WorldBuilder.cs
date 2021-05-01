@@ -27,6 +27,8 @@ public class WorldBuilder : MonoBehaviour
 
     public int minDepth = 20;
 
+    public int genDistance = 50;
+
 
     public float sandThickAvg = 4;
     public float sandThickVariance = 4;
@@ -97,8 +99,8 @@ public class WorldBuilder : MonoBehaviour
             noiseOffsetX = Random.Range(int.MinValue, int.MaxValue);
             noiseOffsetY = Random.Range(int.MinValue, int.MaxValue);
 
-            minExtent = -30;
-            maxExtent = 30;
+            minExtent = -genDistance;
+            maxExtent = genDistance;
             for(int x = minExtent; x <= maxExtent; ++x)
             {
                 GenerateSlice(x);
@@ -151,17 +153,17 @@ public class WorldBuilder : MonoBehaviour
         Vector3 camPos = Camera.main.transform.position;
         int camX = (int)camPos.x;
 
-        if(camX + 30 > maxExtent && maxExtent < xBounds) 
+        if(camX + genDistance > maxExtent && maxExtent < xBounds) 
         {
-            for(int x = maxExtent; x < camX + 30 && x < xBounds; ++x)
+            for(int x = maxExtent; x < camX + genDistance && x < xBounds; ++x)
             {
                 GenerateSlice(x);
             }
         }
 
-        if(camX - 30 < minExtent && minExtent > -xBounds) 
+        if(camX - genDistance < minExtent && minExtent > -xBounds) 
         {
-            for(int x = minExtent - 1; x > camX - 30 && x > -xBounds; --x)
+            for(int x = minExtent - 1; x > camX - genDistance && x > -xBounds; --x)
             {
                 GenerateSlice(x);
             }
@@ -218,7 +220,7 @@ public class WorldBuilder : MonoBehaviour
             if(y != -depthLimit)
             {
                 float holeSampleXpos = (x - xBounds) / 12.0f;
-                float holeSampleYpos = (y) / 51.0f  + noiseOffsetY;
+                float holeSampleYpos = (y) / 31.0f  + noiseOffsetY;
 
                 float plasmaSampleXpos = (x) / 32.0f;
                 float plasmaSampleYpos = (y) / 5.0f  + noiseOffsetY;
@@ -229,11 +231,13 @@ public class WorldBuilder : MonoBehaviour
                 
                 float caveDetail = Mathf.PerlinNoise(x / 3f, y / 3f);
 
-                float plasmaWeight = 2;
+                float plasmaWeight = 1;
                 float holesWeight = 3;
                 float noiseWeight = 1;
                 
                 float cave = ((holesCave * holesWeight) + (plasmaCave * plasmaWeight) + (caveDetail * noiseWeight)) / (plasmaWeight + holesWeight + noiseWeight);
+
+
 
                 if(cave > caveDensity)
                 {

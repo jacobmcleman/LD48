@@ -265,7 +265,7 @@ public class UpgradeManager : MonoBehaviour
         upgradeValues = new Dictionary<UpgradeType, UpgradeValues>();
 
         UpgradeValues flipperValues = new UpgradeValues();
-        flipperValues.swimSpeedIncrease = 0.1f;
+        flipperValues.swimSpeedIncrease = 0.2f;
         upgradeValues.Add(UpgradeType.Flippers, flipperValues);
         upgradeDisplayNames.Add(UpgradeType.Flippers, "Fancy Flippers");
         upgradeDescriptions.Add(UpgradeType.Flippers,  "Foot extensions seem to speed up swimming");
@@ -279,7 +279,7 @@ public class UpgradeManager : MonoBehaviour
         upgradeIcons.Add(UpgradeType.AirPropulsion, airJetImage);
 
         UpgradeValues airTankValues = new UpgradeValues();
-        airTankValues.airCapIncrease = 1.0f;
+        airTankValues.airCapIncrease = 5.0f;
         upgradeValues.Add(UpgradeType.AirTank, airTankValues);
         upgradeDisplayNames.Add(UpgradeType.AirTank, "Air Tank");
         upgradeDescriptions.Add(UpgradeType.AirTank, "Turns out that in this case bigger is better");
@@ -314,7 +314,7 @@ public class UpgradeManager : MonoBehaviour
         upgradeIcons.Add(UpgradeType.FuelTank, drillFuelImage);
 
         UpgradeValues sadDigValues = new UpgradeValues();
-        sadDigValues.sadDigIncrease = 0.1f;
+        sadDigValues.sadDigIncrease = 0.2f;
         upgradeValues.Add(UpgradeType.IronHands, sadDigValues);
         upgradeDisplayNames.Add(UpgradeType.IronHands, "Iron Hands");
         upgradeDescriptions.Add(UpgradeType.IronHands, "Some might call this a mere shovel, and they're probably right");

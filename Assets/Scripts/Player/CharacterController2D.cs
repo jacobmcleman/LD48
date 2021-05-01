@@ -63,8 +63,11 @@ public class CharacterController2D : MonoBehaviour
 	}
 
 
-	public void Move(Vector2 move, bool crouch, bool jump)
+	public void Move(Vector2 move, bool crouch, bool jump, float gravityScale, float drag)
 	{
+		m_Rigidbody2D.gravityScale = gravityScale;
+		m_Rigidbody2D.drag = drag;
+
 		// If crouching, check to see if the character can stand up
 		if (!crouch)
 		{

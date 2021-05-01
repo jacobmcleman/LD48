@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
 
     public float waterMoveSpeed = 1;
 
+    public float ladderDrag = 4.0f;
+
     public float WaterMoveSpeed 
     {
         get { return waterMoveSpeed + UpgradeManager.SwimSpeedIncrease; }
@@ -279,8 +281,9 @@ public class PlayerController : MonoBehaviour
         
         float curMoveSpeed = submerged ? WaterMoveSpeed : airMoveSpeed;
         Vector2 moveVec = new Vector2(moveInput.x * curMoveSpeed, (submerged || onLadder) ? moveInput.y * curMoveSpeed : 0);
-
-        controller2D.Move(moveVec, false, (!submerged && !onLadder && moveInput.y > 0.1f));
+        float curGravity = onLadder ? 0 : (submerged ? waterGravityScale : 1);
+        float curDrag = onLadder ? ladderDrag : (submerged ? waterDrag : 0);
+        controller2D.Move(moveVec, false, (!submerged && !onLadder && moveInput.y > 0.1f), curGravity, curDrag);
 
         bool usingGamepad = lookInput.magnitude > 0.1f;
         Vector2 lookVec = lookInput * DigRange;

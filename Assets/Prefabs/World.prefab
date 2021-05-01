@@ -89,6 +89,7 @@ MonoBehaviour:
   depthLimit: 250
   waterLevel: 0
   minDepth: 6
+  genDistance: 50
   sandThickAvg: 3
   sandThickVariance: 5
   sandTile: {fileID: 11400000, guid: 314ed8a14fbd8594c8a8a1529a57a7dd, type: 2}
@@ -133,7 +134,7 @@ MonoBehaviour:
   onLoadTriggered:
     m_PersistentCalls:
       m_Calls: []
-  saveFileName: test_save
+  saveFileName: savegame
 --- !u!114 &22895748
 MonoBehaviour:
   m_ObjectHideFlags: 0
