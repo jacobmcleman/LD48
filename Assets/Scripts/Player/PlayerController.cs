@@ -90,6 +90,17 @@ public class PlayerController : MonoBehaviour
         get { return airAmount + UpgradeManager.AirCapacityIncrease; }
     }
 
+    public float CurrentAirAmount
+    {
+        get => curAir; 
+        set 
+        {
+            curAir = value;
+            airMeter.maxVal = AirCapacity;
+            airMeter.Value = curAir;
+        }
+    }
+
     public float airRecoveryRate = 3;
 
     public float AirRecoveryRate
@@ -386,8 +397,8 @@ public class PlayerController : MonoBehaviour
 
         if(curHealth == 0)
         {
-            DoDeath("You ran out of air");
             GetComponent<Inventory>()?.DropAll();
+            DoDeath("You ran out of air");
         }
 
         healthMeter.Value = curHealth;
@@ -445,6 +456,8 @@ public class PlayerController : MonoBehaviour
         isDead = true;
         deathUI.transform.Find("Cause of Death").GetComponent<UnityEngine.UI.Text>().text = cause;
         deathUI.SetActive(true);
+
+        FindObjectOfType<SaveStateManager>().TriggerSave(SaveStateManager.SaveType.WorldState);
     }
 
     public void Respawn()
@@ -456,6 +469,8 @@ public class PlayerController : MonoBehaviour
         curAir = AirCapacity;
         curHealth = healthAmount;
         transform.position = spawnPosition;
+
+        FindObjectOfType<SaveStateManager>().TriggerSave(SaveStateManager.SaveType.Player);
     }
 
     public bool NeedFuel()

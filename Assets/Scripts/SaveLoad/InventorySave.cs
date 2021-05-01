@@ -37,13 +37,17 @@ public class InventorySave : MonoBehaviour
         string path = Application.persistentDataPath + "/" + savefile;
         path += ".inventory";
 
-        string invStr = "Gold: " + inventory.gold;
+        string invStr = "";
+
+        invStr += "Gold: " + inventory.gold;
         invStr += "\nIron: " + inventory.iron;
         invStr += "\nCopper: " + inventory.copper;
 
         if(player)
         {
             invStr += "\nFuel: " + player.DrillCurrentFuel;
+            invStr += "\nAir: " + player.CurrentAirAmount;
+            invStr += "\nPosition: " + JsonUtility.ToJson(transform.position);
         }
 
         using (StreamWriter writer = File.CreateText(path))
@@ -101,6 +105,18 @@ public class InventorySave : MonoBehaviour
                 if(player)
                 {
                     player.DrillCurrentFuel = float.Parse(data);
+                }
+                break;
+            case "Air":
+                if(player)
+                {
+                    player.CurrentAirAmount = float.Parse(data);
+                }
+                break;
+            case "Position":
+                if(player)
+                {
+                    transform.position = JsonUtility.FromJson<Vector3>(data);
                 }
                 break;
             default:

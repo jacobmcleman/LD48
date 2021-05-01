@@ -134,10 +134,13 @@ public class WorldBuilder : MonoBehaviour
         int rangeLow = useLow ? lowLow : highLow;
         int rangeHigh = useLow ? lowHigh : highHigh;
 
+        int maxDepth = -depthLimit / 2; 
+
         Vector3Int chosenSpot;
         do
         {
-            chosenSpot = new Vector3Int(Random.Range(rangeLow, rangeHigh), Random.Range(-depthLimit / 2, waterLevel), 0);
+            chosenSpot = new Vector3Int(Random.Range(rangeLow, rangeHigh), Random.Range(maxDepth, waterLevel), 0);
+            maxDepth = maxDepth / 2;
         } while(GetTile(chosenSpot) != TileType.Air || !flower.isWaterPresent(chosenSpot));
 
         return chosenSpot;
