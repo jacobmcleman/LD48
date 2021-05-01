@@ -12,6 +12,7 @@ public class WaterInteraction : MonoBehaviour
     public float waterDrag = 0.8f;
 
     public bool requiresWater = false;
+    public bool popable = false;
 
     private void Awake()
     {

@@ -160,6 +160,11 @@ public class WaterFlow : MonoBehaviour
 
     public bool isBreathable(Vector3Int tilePos)
     {
-        return waterTiles.GetTile(tilePos) == null && isWaterLoggable(terrainTiles.GetTile(tilePos));
+        return !isWaterPresent(tilePos) && isWaterLoggable(terrainTiles.GetTile(tilePos));
+    }
+
+    public bool isWaterPresent(Vector3Int tilePos)
+    {
+        return waterTiles.GetTile(tilePos) != null;
     }
 }
