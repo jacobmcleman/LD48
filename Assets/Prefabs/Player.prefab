@@ -493,6 +493,7 @@ MonoBehaviour:
   waterDrag: 0.5
   airMoveSpeed: 1.4
   waterMoveSpeed: 0.7
+  ladderDrag: 4
   inUpgradeScreen: 0
   digSpeed: 0.75
   slowDig: 0.25

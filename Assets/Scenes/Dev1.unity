@@ -368,10 +368,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 22895743, guid: 925c19f2cb9476444bf7fb0650ddc913, type: 3}
-      propertyPath: saveFileName
-      value: savegame
-      objectReference: {fileID: 0}
     - target: {fileID: 2084243904230106737, guid: 925c19f2cb9476444bf7fb0650ddc913, type: 3}
       propertyPath: m_Name
       value: World
@@ -429,22 +425,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1257325772, guid: 49023fc0ebe495d41a6f26724d62a922, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1257325772, guid: 49023fc0ebe495d41a6f26724d62a922, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1257325772, guid: 49023fc0ebe495d41a6f26724d62a922, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 393
-      objectReference: {fileID: 0}
-    - target: {fileID: 1363910486036035829, guid: 49023fc0ebe495d41a6f26724d62a922, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ExitGame
-      objectReference: {fileID: 0}
     - target: {fileID: 3491311459111336593, guid: 49023fc0ebe495d41a6f26724d62a922, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -452,18 +432,6 @@ PrefabInstance:
     - target: {fileID: 3491311459535262881, guid: 49023fc0ebe495d41a6f26724d62a922, type: 3}
       propertyPath: m_Name
       value: UI_Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 3491311459535262883, guid: 49023fc0ebe495d41a6f26724d62a922, type: 3}
-      propertyPath: m_UiScaleMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3491311459535262883, guid: 49023fc0ebe495d41a6f26724d62a922, type: 3}
-      propertyPath: m_ReferenceResolution.x
-      value: 2560
-      objectReference: {fileID: 0}
-    - target: {fileID: 3491311459535262883, guid: 49023fc0ebe495d41a6f26724d62a922, type: 3}
-      propertyPath: m_ReferenceResolution.y
-      value: 1440
       objectReference: {fileID: 0}
     - target: {fileID: 3491311459535262885, guid: 49023fc0ebe495d41a6f26724d62a922, type: 3}
       propertyPath: m_Pivot.x

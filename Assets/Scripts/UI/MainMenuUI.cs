@@ -16,14 +16,19 @@ public class MainMenuUI : MonoBehaviour
 
     public bool hasStarted;
 
-    private void Start()
+    private void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-        cameraFollow = Camera.main.GetComponent<CameraFollow>();
-        gameUI.SetActive(false);
         Time.timeScale = 0;
         paused = true;
         hasStarted = false;
+    }
+
+    private void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        player.GetComponent<Rigidbody2D>().simulated = false;
+        cameraFollow = Camera.main.GetComponent<CameraFollow>();
+        gameUI.SetActive(false);
     }
 
     public void PauseGame()
@@ -37,15 +42,34 @@ public class MainMenuUI : MonoBehaviour
     public void StartResumeGame()
     {
         cameraFollow.target = player;
-        Time.timeScale = 1;
+        
+        paused = false;
+        gameObject.SetActive(false);
+
+        if(hasStarted)
+        {
+            gameUI.SetActive(true);
+            Time.timeScale = 1;
+        }
+        else
+        {
+            cameraFollow.inStartPan = true;
+        }
 
         playButtonText.text = "Resume";
+    }
 
-        gameObject.SetActive(false);
+    public void FinishStartup()
+    {
+       
         gameUI.SetActive(true);
 
         paused = false;
         hasStarted = true;
+
+        player.GetComponent<Rigidbody2D>().simulated = true;
+
+        Time.timeScale = 1;
     }
 
     public void ShowOptions()
@@ -58,6 +82,7 @@ public class MainMenuUI : MonoBehaviour
     {
         // TODO: Confirmation Prompt
         Debug.Log("QUIT");
-        Application.Quit();
+        FindObjectOfType<SaveStateManager>().RequestGameExit();
+        //Application.Quit();
     }
 }

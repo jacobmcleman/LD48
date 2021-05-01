@@ -426,7 +426,7 @@ public class PlayerController : MonoBehaviour
         {
             onLadder = true;
         }
-        else if(other.gameObject.tag == "UpgradeArea")
+        else if(other.gameObject.tag == "UpgradeArea" && menuUI.hasStarted)
         {
             inUpgradeScreen = true;
             upgradeScreen.SetActive(true);

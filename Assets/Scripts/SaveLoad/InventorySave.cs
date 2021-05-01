@@ -22,17 +22,18 @@ public class InventorySave : MonoBehaviour
         saveMan.onLoadTriggered.AddListener(LoadData);
     }
 
-    public void SaveData(string savefile, SaveStateManager.SaveType type)
+    public void SaveData(string savefile, SaveStateManager.SaveType type, SaveStateManager manager)
     {
         if(type != SaveStateManager.SaveType.WorldState)
         {
             Debug.Log("Inventory Save Triggered");
-            SaveDataAsync(savefile);
+            manager.RegisterSaveProcessStarted();
+            SaveDataAsync(savefile, manager);
         }
         
     }
 
-    private async void SaveDataAsync(string savefile)
+    private async void SaveDataAsync(string savefile, SaveStateManager manager)
     {
         string path = Application.persistentDataPath + "/" + savefile;
         path += ".inventory";
@@ -54,6 +55,7 @@ public class InventorySave : MonoBehaviour
         {
             await writer.WriteAsync(invStr);
             Debug.Log("Saved to " + path);
+            manager.RegisterSaveProcessCompleted();
         }
     }
 
@@ -117,6 +119,11 @@ public class InventorySave : MonoBehaviour
                 if(player)
                 {
                     transform.position = JsonUtility.FromJson<Vector3>(data);
+                    
+                    Rigidbody2D rb = GetComponent<Rigidbody2D>();
+                    rb.velocity = Vector2.zero;
+
+                    Debug.Log(transform.position);
                 }
                 break;
             default:

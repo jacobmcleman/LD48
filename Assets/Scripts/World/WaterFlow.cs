@@ -75,7 +75,7 @@ public class WaterFlow : MonoBehaviour
 
     private void Update()
     {
-        if(Time.time - lastWaterUpdate > waterUpdateRate)
+        if(Time.unscaledTime - lastWaterUpdate > waterUpdateRate)
         {
             UpdateWater();
         }

@@ -18,16 +18,17 @@ public class UpgradeSaver : MonoBehaviour
         saveMan.onLoadTriggered.AddListener(LoadData);
     }
 
-    public void SaveData(string savefile, SaveStateManager.SaveType type)
+    public void SaveData(string savefile, SaveStateManager.SaveType type, SaveStateManager manager)
     {
         if(type != SaveStateManager.SaveType.WorldState)
         {
             Debug.Log("Upgrades Save Triggered");
-            SaveDataAsync(savefile);
+            manager.RegisterSaveProcessStarted();
+            SaveDataAsync(savefile, manager);
         }
     }
 
-    private async void SaveDataAsync(string savefile)
+    private async void SaveDataAsync(string savefile, SaveStateManager manager)
     {
         string path = Application.persistentDataPath + "/" + savefile;
         path += ".upgrades";
@@ -35,6 +36,7 @@ public class UpgradeSaver : MonoBehaviour
         {
             await writer.WriteAsync(upgradeManager.SerializeUpgrades());
             Debug.Log("Saved to " + path);
+            manager.RegisterSaveProcessCompleted();
         }
     }
 

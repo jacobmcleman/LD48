@@ -24,12 +24,13 @@ public class WorldSaver : MonoBehaviour
         saveMan.onLoadTriggered.AddListener(LoadData);
     }
 
-    private void SaveData(string savefile, SaveStateManager.SaveType type)
+    private void SaveData(string savefile, SaveStateManager.SaveType type, SaveStateManager manager)
     {
         if(type != SaveStateManager.SaveType.Player)
         {
             Debug.Log("World Save Triggered");
-            SaveDataAsync(savefile);
+            manager.RegisterSaveProcessStarted();
+            SaveDataAsync(savefile, manager);
         }
     }
 
@@ -129,7 +130,7 @@ public class WorldSaver : MonoBehaviour
         else return null;
     }
 
-    private async void SaveDataAsync(string savefile)
+    private async void SaveDataAsync(string savefile, SaveStateManager manager)
     {
         string path = Application.persistentDataPath + "/" + savefile;
         path += ".world";
@@ -197,6 +198,7 @@ public class WorldSaver : MonoBehaviour
             serialized += itemsSerialized;
             await writer.WriteAsync(serialized);
             Debug.Log("Saved to " + path);
+            manager.RegisterSaveProcessCompleted();
         }
     }
 }
