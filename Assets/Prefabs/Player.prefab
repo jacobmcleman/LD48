@@ -331,6 +331,8 @@ GameObject:
   - component: {fileID: 1727570089}
   - component: {fileID: 1727570098}
   - component: {fileID: 2407749642521597613}
+  - component: {fileID: 1656926960}
+  - component: {fileID: 1656926961}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -488,13 +490,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waterGravityScale: 0.15
-  waterDrag: 0.6
+  waterDrag: 0.5
   airMoveSpeed: 1.4
-  waterMoveSpeed: 0.6
+  waterMoveSpeed: 0.8
   inUpgradeScreen: 0
   digSpeed: 0.75
   slowDig: 0.25
-  digRadius: 5
+  digRadius: 3
   drillBaseFuel: 20
   airAmount: 15
   airRecoveryRate: 3
@@ -803,6 +805,30 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1656926960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 224586246361640248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991afb0aa2cc923459a90b70850121d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1656926961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 224586246361640248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60d356d7230914a448e6d253a92682a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &224586246558070314
 GameObject:
   m_ObjectHideFlags: 0

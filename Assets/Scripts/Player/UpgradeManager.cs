@@ -328,8 +328,8 @@ public class UpgradeManager : MonoBehaviour
         Upgrade flippers = new Upgrade();
         flippers.type = UpgradeType.Flippers;
         flippers.tier = 0;
-        flippers.copperCost = 5;
-        flippers.ironCost = 10;
+        flippers.copperCost = 2;
+        flippers.ironCost = 4;
         flippers.goldCost = 0;
         availableUpgrades.Add(flippers);
         
@@ -348,9 +348,9 @@ public class UpgradeManager : MonoBehaviour
         Upgrade airTank = new Upgrade();
         airTank.type = UpgradeType.AirTank;
         airTank.tier = 0;
-        airTank.copperCost = 10;
+        airTank.copperCost = 5;
         airTank.ironCost = 0;
-        airTank.goldCost = 5;
+        airTank.goldCost = 3;
         availableUpgrades.Add(airTank);
 
         // ---------------------------------------------------------
@@ -358,7 +358,7 @@ public class UpgradeManager : MonoBehaviour
         Upgrade airIntake = new Upgrade();
         airIntake.type = UpgradeType.AirIntakes;
         airIntake.tier = 0;
-        airIntake.copperCost = 8;
+        airIntake.copperCost = 4;
         airIntake.ironCost = 0;
         airIntake.goldCost = 4;
         availableUpgrades.Add(airIntake);
@@ -368,9 +368,9 @@ public class UpgradeManager : MonoBehaviour
         Upgrade longArms = new Upgrade();
         longArms.type = UpgradeType.LongArms;
         longArms.tier = 0;
-        longArms.copperCost = 10;
+        longArms.copperCost = 3;
         longArms.ironCost = 0;
-        longArms.goldCost = 20;
+        longArms.goldCost = 7;
         availableUpgrades.Add(longArms);
         
         // ---------------------------------------------------------
@@ -378,9 +378,9 @@ public class UpgradeManager : MonoBehaviour
         Upgrade digSpeed = new Upgrade();
         digSpeed.type = UpgradeType.DrillHead;
         digSpeed.tier = 0;
-        digSpeed.copperCost = 10;
+        digSpeed.copperCost = 5;
         digSpeed.ironCost = 0;
-        digSpeed.goldCost = 20;
+        digSpeed.goldCost = 8;
         availableUpgrades.Add(digSpeed);
 
         // ---------------------------------------------------------
@@ -388,9 +388,9 @@ public class UpgradeManager : MonoBehaviour
         Upgrade drillFuel = new Upgrade();
         drillFuel.type = UpgradeType.FuelTank;
         drillFuel.tier = 0;
-        drillFuel.copperCost = 10;
+        drillFuel.copperCost = 6;
         drillFuel.ironCost = 0;
-        drillFuel.goldCost = 20;
+        drillFuel.goldCost = 10;
         availableUpgrades.Add(drillFuel);
 
         // ---------------------------------------------------------
@@ -399,8 +399,8 @@ public class UpgradeManager : MonoBehaviour
         sadDig.type = UpgradeType.IronHands;
         sadDig.tier = 0;
         sadDig.copperCost = 0;
-        sadDig.ironCost = 10;
-        sadDig.goldCost = 3;
+        sadDig.ironCost = 4;
+        sadDig.goldCost = 2;
         availableUpgrades.Add(sadDig);
 
         // ---------------------------------------------------------

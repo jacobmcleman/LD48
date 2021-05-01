@@ -88,9 +88,9 @@ MonoBehaviour:
   xBounds: 2000
   depthLimit: 250
   waterLevel: 0
-  minDepth: 10
-  sandThickAvg: 4
-  sandThickVariance: 4
+  minDepth: 6
+  sandThickAvg: 3
+  sandThickVariance: 5
   sandTile: {fileID: 11400000, guid: 314ed8a14fbd8594c8a8a1529a57a7dd, type: 2}
   rockTile: {fileID: 11400000, guid: 7516e1b84710936478dbf8eec39be7b6, type: 2}
   goldTile: {fileID: 11400000, guid: e5942ecd14053c74099ee9ebd96a3f3a, type: 2}
@@ -133,7 +133,7 @@ MonoBehaviour:
   onLoadTriggered:
     m_PersistentCalls:
       m_Calls: []
-  saveFileName: test_save_2
+  saveFileName: test_save
 --- !u!114 &22895748
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -339,6 +339,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 224586246361640253, guid: 9b2d9dce9c202444faa15a9f889a3968, type: 3}
+      propertyPath: airAmount
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 224586246361640253, guid: 9b2d9dce9c202444faa15a9f889a3968, type: 3}
+      propertyPath: digRadius
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 224586246361640253, guid: 9b2d9dce9c202444faa15a9f889a3968, type: 3}
+      propertyPath: waterDrag
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224586246361640253, guid: 9b2d9dce9c202444faa15a9f889a3968, type: 3}
+      propertyPath: drillBaseFuel
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 224586246361640253, guid: 9b2d9dce9c202444faa15a9f889a3968, type: 3}
+      propertyPath: waterMoveSpeed
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 224586246361640254, guid: 9b2d9dce9c202444faa15a9f889a3968, type: 3}
       propertyPath: m_Camera
       value: 
@@ -411,7 +431,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 22895743, guid: 925c19f2cb9476444bf7fb0650ddc913, type: 3}
       propertyPath: saveFileName
-      value: test_save_4
+      value: test_save
       objectReference: {fileID: 0}
     - target: {fileID: 2084243904230106737, guid: 925c19f2cb9476444bf7fb0650ddc913, type: 3}
       propertyPath: m_Name
@@ -460,6 +480,18 @@ PrefabInstance:
     - target: {fileID: 2084243904230106739, guid: 925c19f2cb9476444bf7fb0650ddc913, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084243904230106741, guid: 925c19f2cb9476444bf7fb0650ddc913, type: 3}
+      propertyPath: minDepth
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084243904230106741, guid: 925c19f2cb9476444bf7fb0650ddc913, type: 3}
+      propertyPath: sandThickAvg
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084243904230106741, guid: 925c19f2cb9476444bf7fb0650ddc913, type: 3}
+      propertyPath: sandThickVariance
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 925c19f2cb9476444bf7fb0650ddc913, type: 3}
