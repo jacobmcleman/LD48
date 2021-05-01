@@ -302,6 +302,24 @@ public class WorldBuilder : MonoBehaviour
         terrainTiles.SetTilesBlock(new BoundsInt(minExtent, -depthLimit, 0, maxExtent - minExtent, depthLimit, 1), tiles);
     }
 
+    public void SpawnItem(Pickup.ItemData itemData)
+    {
+        GameObject spawned = null;
+        switch(itemData.pickupType)
+        {
+            case Pickup.Type.GoldOre:
+                spawned = Instantiate(goldNuggetPrefab);
+                break;
+            case Pickup.Type.IronOre:
+                spawned = Instantiate(ironNuggetPrefab);
+                break;
+            case Pickup.Type.CopperOre:
+                spawned = Instantiate(copperNuggetPrefab);
+                break;
+        }
+        if(spawned != null) spawned.GetComponent<Pickup>().SetData(itemData);
+    }
+
     private GameObject SpawnDrops(TileType brokenType, Vector3Int tilePos)
     {
         GameObject toSpawn = null;

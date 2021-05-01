@@ -47,6 +47,7 @@ public class WorldSaver : MonoBehaviour
         string seedStr = "";
         string boundsStr = "";
         string encodedWorldStr = "";
+        string serializedItemStr = "";
 
         try
         {
@@ -55,6 +56,7 @@ public class WorldSaver : MonoBehaviour
                 seedStr = reader.ReadLine();
                 boundsStr = reader.ReadLine();
                 encodedWorldStr = reader.ReadLine();
+                serializedItemStr = reader.ReadLine();
             };
         } catch(System.Exception e)
         {
@@ -93,6 +95,13 @@ public class WorldSaver : MonoBehaviour
         }
 
         if(tileIndex < tiles.Length) Debug.LogWarning("Didn't read enough tile data!");
+
+        Pickup.ItemData[] items = JsonHelper.FromJson<Pickup.ItemData>(serializedItemStr);
+
+        foreach(Pickup.ItemData pickup in items)
+        {
+            world.SpawnItem(pickup);
+        }
 
         world.SetTilesRaw(tiles, minBound, maxBound);
         world.BuildWorld();

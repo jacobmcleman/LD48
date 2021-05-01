@@ -48,6 +48,21 @@ public class Pickup : MonoBehaviour
         return data;
     }
 
+    public void SetData(ItemData data)
+    {
+        float curVolume = transform.localScale.x * transform.localScale.x;
+        float density = curVolume / amount;
+        float desiredVolume = curVolume + (data.amount * density);
+        float newSize = Mathf.Sqrt(desiredVolume);
+        if(newSize >= maxSize) mergeAllowed = false;
+        newSize = Mathf.Clamp(Mathf.Sqrt(desiredVolume), 0, maxSize);
+        transform.localScale = new Vector3(newSize, newSize, newSize);
+
+        transform.position = data.position;
+        pickupType = data.pickupType;
+        amount = data.amount;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         Pickup otherPickup = other.GetComponent<Pickup>();
