@@ -99,14 +99,18 @@ public class WorldBuilder : MonoBehaviour
 
             minExtent = -30;
             maxExtent = 30;
-            for(int x = minExtent; x < maxExtent; ++x)
+            for(int x = minExtent; x <= maxExtent; ++x)
             {
                 GenerateSlice(x);
             }
         }
         else
         {
+            Debug.LogFormat("Loading world with seed {0}", seed);
             Random.InitState(seed);
+            noiseOffsetX = Random.Range(int.MinValue, int.MaxValue);
+            noiseOffsetY = Random.Range(int.MinValue, int.MaxValue);
+            
             for(int x = MinBound; x < MaxBound; ++x)
             {
                 flower.AddSlice(x);
