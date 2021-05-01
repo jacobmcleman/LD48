@@ -110,7 +110,7 @@ public class WorldBuilder : MonoBehaviour
             Random.InitState(seed);
             noiseOffsetX = Random.Range(int.MinValue, int.MaxValue);
             noiseOffsetY = Random.Range(int.MinValue, int.MaxValue);
-            
+
             for(int x = MinBound; x < MaxBound; ++x)
             {
                 flower.AddSlice(x);
@@ -321,7 +321,12 @@ public class WorldBuilder : MonoBehaviour
                 spawned = Instantiate(copperNuggetPrefab);
                 break;
         }
-        if(spawned != null) spawned.GetComponent<Pickup>().SetData(itemData);
+        if(spawned != null)
+        {
+            spawned.GetComponent<Pickup>().SetData(itemData);
+            spawned.transform.parent = looseItems;
+        } 
+
     }
 
     private GameObject SpawnDrops(TileType brokenType, Vector3Int tilePos)
@@ -353,13 +358,13 @@ public class WorldBuilder : MonoBehaviour
         if(fx != null)
         {
             position.z = 1;
-            GameObject drop = Instantiate(fx, position, Quaternion.identity);
-            drop.transform.parent = looseItems;
+            GameObject fxDrop = Instantiate(fx, position, Quaternion.identity);
         }
 
         if(toSpawn != null)
         {
             GameObject drop = Instantiate(toSpawn, position, Quaternion.identity);
+            drop.transform.parent = looseItems;
             return drop;
         }
 

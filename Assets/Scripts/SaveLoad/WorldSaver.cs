@@ -41,6 +41,7 @@ public class WorldSaver : MonoBehaviour
         if(!File.Exists(path)) 
         {
             Debug.Log("No world save file found, treating as new game");
+            world.BuildWorld();
             return;
         }
 
