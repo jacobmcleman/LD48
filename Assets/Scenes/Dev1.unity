@@ -368,6 +368,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 22895743, guid: 925c19f2cb9476444bf7fb0650ddc913, type: 3}
+      propertyPath: saveFileName
+      value: savegame
+      objectReference: {fileID: 0}
     - target: {fileID: 2084243904230106737, guid: 925c19f2cb9476444bf7fb0650ddc913, type: 3}
       propertyPath: m_Name
       value: World

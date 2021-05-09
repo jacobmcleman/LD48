@@ -7,6 +7,8 @@ public class MainMenuUI : MonoBehaviour
 {
     public Text playButtonText;
 
+    private Text versionText;
+
     private CameraFollow cameraFollow;
     private Transform player;
 
@@ -28,7 +30,10 @@ public class MainMenuUI : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         player.GetComponent<Rigidbody2D>().simulated = false;
         cameraFollow = Camera.main.GetComponent<CameraFollow>();
+        versionText = transform.Find("Version").GetComponent<Text>();
         gameUI.SetActive(false);
+
+        versionText.text = "Version " + Application.version + (Application.isEditor ? " [Editor]" : "");
     }
 
     public void PauseGame()

@@ -10,6 +10,8 @@ public class SaveStateManager : MonoBehaviour
 
     public string saveFileName = "test_save";
 
+    private GameObject saveIndicator;
+
     public enum SaveType
     {
         Everything, Player, WorldState
@@ -20,6 +22,8 @@ public class SaveStateManager : MonoBehaviour
 
     private void Start()
     {
+        saveIndicator = GameObject.Find("UI_Canvas").transform.Find("Save Indicator").gameObject;
+        saveIndicator.SetActive(false);
         TriggerLoad();
     }
 
@@ -51,11 +55,21 @@ public class SaveStateManager : MonoBehaviour
 
     public void RegisterSaveProcessStarted()
     {
+        if(savesActive == 0)
+        {
+            saveIndicator.SetActive(true);
+        }
+
         savesActive++;
     }
 
     public void RegisterSaveProcessCompleted()
     {
         savesActive--;
+
+        if(savesActive == 0)
+        {
+            saveIndicator.SetActive(false);
+        }
     }
 }
